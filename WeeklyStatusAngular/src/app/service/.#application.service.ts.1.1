@@ -1,0 +1,134 @@
+import { Injectable } from '@angular/core';
+import {Http, Response, RequestOptions, Request, RequestMethod, Headers} from '@angular/http';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/Observable/throw';
+import {Application} from '../dao/application';
+import { BioLogApplication } from '../dao/bio-log-application';
+import { BioLogAppType } from '../dao/bio-log-app-type';
+import { BioLogAppGroup } from '../dao/bio-log-app-group';
+import { AppConstantService } from '../constant/app-constant.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApplicationService {
+
+  private baseurl:string;
+  private options;
+  private application = new Application();
+  private bioLogApplication = new BioLogApplication();
+  private bioLogAppType = new BioLogAppType();
+  private bioLogAppGroup = new BioLogAppGroup();
+  authenticated = false;
+
+  constructor(private _http:Http, private _constant: AppConstantService, private http: HttpClient) 
+  { 
+    this.baseurl = this._constant.HOST_NAME + "/app";
+    this.options = this._constant.options;
+  }
+
+  getAllApplicationDetails()
+  {
+    return this._http.get(this.baseurl+'/details', this.options).map((res: Response) => res.json())
+    .catch(this.errorHandler);
+  }
+
+  getAllAppTypeDetails()
+  {
+    return this._http.get(this.baseurl+'/type/details', this.options).map((res: Response) => res.json())
+    .catch(this.errorHandler);
+  }
+
+  getAllAppGroupDetails()
+  {
+    return this._http.get(this.baseurl+'/group/details', this.options).map((res: Response) => res.json())
+    .catch(this.errorHandler);
+  }
+
+  getAppTypeList()
+  {
+    return this._http.get(this.baseurl+'/type', this.options).map((res: Response) => res.json())
+    .catch(this.errorHandler);
+  }
+
+  getAppGroupList()
+  {
+    return this._http.get(this.baseurl+'/group', this.options).map((res: Response) => res.json())
+    .catch(this.errorHandler);
+  }
+
+  getLogLevelList()
+  {
+    return this._http.get(this.baseurl+'/log', this.options).map((res: Response) => res.json())
+    .catch(this.errorHandler);
+  }
+
+  getAppNameList()
+  {
+    return this._http.get(this.baseurl+'/name', this.options).map((res: Response) => res.json())
+    .catch(this.errorHandler);
+  }
+
+  getAppNameByAppGroupId(appGroupName:String)
+  {
+    return this._http.get(this.baseurl+'/name/group/'+appGroupName, this.options).map((res: Response) => res.json())
+    .catch(this.errorHandler);
+  }
+
+  getServiceInvokerStatusList()
+  {
+    return this._http.get(this.baseurl+'/sistatus', this.options).map((res: Response) => res.json())
+    .catch(this.errorHandler);
+  }
+
+  createApplication(bioLogApplication:BioLogApplication)
+  {
+    return this._http.post(this.baseurl+'/save',JSON.stringify(bioLogApplication), this.options).map((res: Response) => res.json())
+    .catch(this.errorHandler);
+  }
+
+  createAppType(bioLogAppType:BioLogAppType)
+  {
+    return this._http.post(this.baseurl+'/save/apptype',JSON.stringify(bioLogAppType), this.options).map((res: Response) => res.json())
+    .catch(this.errorHandler);
+  }
+
+  createAppGroup(bioLogAppGroup:BioLogAppGroup)
+  {
+    return this._http.post(this.baseurl+'/save/appgroup',JSON.stringify(bioLogAppGroup), this.options).map((res: Response) => res.json())
+    .catch(this.errorHandler);
+  }
+  
+  errorHandler(error:Response)
+  {
+    return Observable.throw(error||"Server Error");
+  }
+
+  setter(application:Application){
+    this.application = application;
+  }
+
+  getter(){
+    return this.application;
+  }
+
+  authenticate(credentials, callback) {
+
+    const headers = new HttpHeaders(credentials ? {
+        authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password)
+    } : {});
+
+    this.http.get('user', {headers: headers}).subscribe(response => {
+        if (response['name']) {
+            this.authenticated = true;
+        } else {
+            this.authenticated = false;
+        }
+        return callback && callback();
+    });
+
+}
+}

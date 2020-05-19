@@ -1,0 +1,88 @@
+<div class="content-wrapper dashboard">
+
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Dashboard</li>
+  </ol>
+  <section class="content">
+
+    <div class="row">
+      <div class="col-md-12">
+
+
+      </div>
+     
+
+
+      <div class="col-md-6 graphs">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <span><i class="fa fa-chart-pie"></i>&nbsp;Tesla Tickets</span>
+             
+          </div>
+          <div class="panel-body graphPanelHeight" style="padding: 0px !important">
+
+                <div #containerElement style="min-width: 310px; height: 350px; margin: 0 auto"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 graphs">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <span> <i class="fa fa-bar-chart-o"></i>&nbsp;Meeza IT</span>
+          </div>
+          <div class="panel-body chart-responsive graphPanelHeight" style="padding: 0px !important">
+
+           <div #containerElementTransaction style="min-width: 310px; height: 350px; margin: 0 auto"></div>
+                     </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-4 col-xs-12 graphs">
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <span> <i class="fa fa-align-left"></i>&nbsp;IVMS Monitoring Support</span>
+     
+          </div>
+          <div class="panel-body graphPanelHeight" style="padding: 0px !important">
+            
+              <div #containerElementNotification style="min-width: 310px; height: 350px; margin: 0 auto"></div>
+              <select  id="searchweekNotification" name="searchweekNotification"  style="float:right !important"  [value]='week'
+              (change)="onInfra2WeekChange($event.target.value)" ngModel>
+              <option value="" disabled selected>Select Week</option>
+              <option *ngFor="let week of weeks" value={{week}}>
+                {{week}}</option>
+            </select>
+            
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-md-6 col-sm-4 col-xs-12 graphs">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <span class="iconRotate"> <i class="fa fa-sitemap"></i>&nbsp;CG Support</span>
+
+          </div>
+          <div class="panel-body graphPanelHeight " style="padding: 0px !important">
+          <div #containerElementSankey style="min-width: 310px; height: 350px; margin: 0 auto">
+
+          </div>
+           <select  id="searchweek" name="searchweek"  style="float:right !important"  [value]='week'
+          (change)="onInfra1WeekChange($event.target.value)" ngModel>
+          <option value="" disabled selected>Select Week</option>
+          <option *ngFor="let week of weeks" value={{week}}>
+            {{week}}</option>
+        </select>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+
+  </section>

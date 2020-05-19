@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>BCT Managed Services </title>
+  <!-- commented for local server -->
+     <base href="/weeklystatusui/">
+    
+     
+  
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700)"> -->
+
+  <link rel="stylesheet" href="assets/css/jquery-jvectormap.css">
+  <link rel="stylesheet" href="assets/css/ionicons.min.css">
+
+  <link rel="stylesheet" href="assets/css/tabs.css">
+  <link rel="stylesheet" href="assets/css/tabstyles.css">
+  <link rel="stylesheet" href="assets/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="assets/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/common.css">
+  <link rel="stylesheet" href="assets/css/picker.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="Monitor.png">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<!-- d3 direct graph-->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/@observablehq/notebook-inspector@1/dist/notebook-inspector-style.css">
+
+
+  <!-- slider carousel -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- <script src="https://code.highcharts.com/modules/sankey.js"></script> -->
+    <!-- <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script> -->
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+  
+   .node {
+      cursor: pointer;
+    }
+    .node circle {
+      fill: #fff;
+      stroke: steelblue;
+      stroke-width: 1px;
+    }
+    .node text {
+      font: 10px sans-serif;
+    }
+    .link {
+      fill: none;
+      stroke: #ccc;
+      stroke-width: 2px;
+      opacity:0.6;
+    }
+    </style>
+ 
+    <style>
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+
+.found {
+  fill: #ff4136;
+  stroke: #ff4136;
+}
+
+.search {
+  float: left;
+  font: 10px sans-serif;
+  width: 30%;
+}
+
+ul.select2-results {
+ max-height: 100px;
+}
+
+.select2-container,
+.select2-drop,
+.select2-search,
+.select2-search input {
+  font: 15px sans-serif;
+}
+
+#block_container {
+  display: inline;
+}
+
+    </style>
+  <script>
+    jQuery(document).ready(function () {
+
+      jQuery('#icon').click(function () {
+      jQuery('#icon').hide();
+        jQuery('#icon2').show();
+      });
+      jQuery('#icon2').click(function () {
+        jQuery('#icon2').hide();
+        jQuery('#icon').show();
+      });
+
+      jQuery('.firstLevelMenu').click(function(){
+        jQuery('.secondLevelMenu').removeClass('active');
+        jQuery('#sub').removeClass('menu-open');
+        jQuery('#sub').addClass('menu-close');
+        jQuery('#sub').removeClass('active1'); 
+  });
+
+  jQuery('.secondLevelMenu').click(function(){    
+    jQuery('.firstLevelMenu').removeClass('active');
+    jQuery('.secondLevelMenu').addClass('active');
+    jQuery('#sub').addClass('active1');   
+  });
+
+    });
+  
+    function showBox() {
+      jQuery('#advanceSearch').show();
+      jQuery('#p1').hide();
+      jQuery('#p2').show();
+    }
+    function hideBox() {
+      jQuery('#advanceSearch').hide();
+      jQuery('#p1').show();
+      jQuery('#p2').hide();
+    }
+
+    function resize() {
+      jQuery("#modelResize").removeClass("reduceSize");
+      jQuery("#modelLogResize").removeClass("reduceSize");      
+      jQuery(".modal-body").removeClass("reduceHeight");
+      jQuery("#modelResize").addClass("modelSize");
+      jQuery("#modelLogResize").addClass("modelSize");
+      //jQuery("#modelCreateInterfaceResize").addClass("modelSize");
+      //jQuery("#modelCreateInterfaceResize").removeClass("reduceSize");      
+      //jQuery("#editInterfacemodelResize").addClass("modelSize");
+      //jQuery("#editInterfacemodelResize").removeClass("reduceSize");      
+      jQuery(".modal-body").addClass("contentHeight");
+      jQuery(".modal-body").addClass("contentHeight");
+      jQuery(".resize").hide();
+      jQuery(".reduce").show();
+    }
+
+    function reduce() {
+      jQuery("#modelResize").removeClass("modelSize");
+      jQuery("#modelResize").addClass("reduceSize");
+      jQuery("#modelLogResize").removeClass("modelSize");
+      jQuery("#modelLogResize").addClass("reduceSize");
+      //jQuery("#modelCreateInterfaceResize").removeClass("modelSize");
+      //jQuery("#modelCreateInterfaceResize").addClass("reduceSize");
+      //jQuery("#editInterfacemodelResize").removeClass("modelSize");
+      //jQuery("#editInterfacemodelResize").addClass("reduceSize");
+      jQuery(".modal-body").removeClass("contentHeight");
+      jQuery(".modal-body").addClass("reduceHeight");
+      jQuery(".resize").show();
+      jQuery(".reduce").hide();
+    }
+    function removeSizeClass(){ 
+      jQuery(".resize").show(); 
+      jQuery(".reduce").hide();   
+      jQuery("#modelResize").removeClass("reduceSize");
+      jQuery("#modelResize").removeClass("reduceSize");
+      jQuery(".modal-body").removeClass("reduceHeight");
+      jQuery("#modelResize").removeClass("modelSize");
+      jQuery(".modal-body").removeClass("contentHeight");
+    }
+    
+    function popShow(){
+      jQuery('#customModal').css('visibility','visible');
+      jQuery('.overlay').css('display','block')
+      // $('#customModal').show();
+      // $('.overlay').show();
+    } 
+
+    function popClose(){
+      jQuery('#customModal').css('visibility','hidden');
+      jQuery('.overlay').css('display','none') 
+    }
+  </script>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+  
+  <app>Loading...</app>
+  <!--<app-root></app-root>-->
+<script src="assets/js/jquery.min.js"></script>
+
+<!-- Bootstrap 3.3.7 -->
+<script src="assets/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="assets/js/adminlte.js"></script>
+<script src="assets/js/angular.min.js"></script>
+<script src="assets/js/script.js"></script>
+<!-- FLOT CHARTS -->
+<!-- Chart.js -->
+<script src="assets/js/flot/Chart.min.js"></script>
+<script src="assets/js/flot/bootstrap-progressbar.min.js"></script>
+<script src="assets/js/flot/custom.min.js"></script>
+<script type="text/javascript" src="runtime.js"></script>
+<script type="text/javascript" src="polyfills.js"></script>
+<script type="text/javascript" src="styles.js"></script>
+<script type="text/javascript" src="scripts.js"></script>
+<!-- <script type="text/javascript" src="vendor.js"></script> -->
+<script type="text/javascript" src="main.js"></script>
+</body>
+</html>

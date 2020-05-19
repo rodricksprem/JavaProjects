@@ -1,0 +1,43 @@
+export class Fields {
+    project_id:number;
+    taskTypeFlag:boolean=false;
+    idFlag:boolean=false;
+    dateSelectionFlag:boolean=false;
+    
+	l1IssuesOpenedFlag:boolean=false;
+	l2IssuesOpenedFlag:boolean=false;
+	l1IssuesClosedFlag:boolean=false;
+	l2IssuesClosedFlag:boolean=false;
+	descriptionFlag:boolean=false;
+	developmentCompletionFlag:boolean=false;
+	remarksFlag:boolean=false;
+	numBuildSprintWorkdFlag:boolean=false;
+	numberBuildSprintCompletedFlag:boolean=false;
+	testsPerDayFlag:boolean=false;
+	createdByFlag:boolean=false;
+	lastUpdatedByFlag:boolean=false;
+	serverNameFlag:boolean=false;
+	requestedByFlag:boolean=false;
+	approvedByFlag:boolean=false;
+	issueNumberFlag:boolean=false;
+	customerNameFlag:boolean=false;
+	moduleFlag:boolean=false;
+	resolutionFlag:boolean=false;
+	targetDateFlag:boolean=false;
+	virtualFarmsFlag:boolean=false;
+	numOfServersFlag:boolean=false;
+	numOfDBsFlag:boolean=false;
+	serverAvailablityFlag:boolean=false;
+	cpuLoadFlag:boolean=false;
+	availMemSpaceFlag:boolean=false;
+	availStorageSpaceFlag:boolean=false;
+	dbAvailablityFlag:boolean=false;
+	appAvailablityFlag:boolean=false;
+	numClientsFlag:boolean=false;
+	numServiceFlag:boolean=false;
+	numVechiclesFlag:boolean=false;
+	locationFlag:boolean=false;
+    statusFlag:boolean=false;
+	resourceFlag:boolean=false;
+	
+}

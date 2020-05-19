@@ -1,0 +1,17 @@
+import { Injectable } from '@angular/core';
+import {RequestOptions, Headers} from '@angular/http';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AppConstantService {
+
+  readonly HOST_NAME: string = 'http://localhost:8088';
+ // readonly HOST_NAME: string = 'http://10.240.8.62:7001/weeklystatus';
+  //readonly HOST_NAME: string = 'http://eisutlvmd01.biogen.com:7010/weeklystatus';
+ // readonly HOST_NAME: string = 'https://eisutldev.biogen.com/weeklystatus';
+  readonly headers = new Headers({'Content-Type':'application/json'});
+  readonly options = new RequestOptions({headers:this.headers});
+
+  constructor() { }
+}

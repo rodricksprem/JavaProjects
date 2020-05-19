@@ -1,0 +1,82 @@
+<div class="content-wrapper dashboard">
+  <ol class="breadcrumb">
+     <li class="breadcrumb-item"><a href="/weeklystatusui">Home</a></li>
+    
+    <!-- <li class="breadcrumb-item"><a  [routerLink]="['']">Home</a></li> -->
+    <li class="breadcrumb-item">Logging</li>
+  </ol>
+  <section class="content logging">
+    <div class="row">
+      <form #buSearchForm="ngForm" (ngSubmit)="buSearch(buSearchForm.value)" class="form-horizontal" role="form">
+        <div class="loggingSearchingBox">
+          <div class="fieldBox">
+            <select class="form-control" id="accountID" name="accountID" (change)="onAccChange($event.target.value)"   [value]='accountID' ngModel>
+              <option *ngFor="let account of accountList" value={{account.accountID}}>{{account.accountName}}</option>
+            </select>
+          </div>
+          <div class="fieldBox">
+            <select class="form-control" id="projectId" name="projectId"   [value]='projectId' 
+            (change)="onProjectChange($event.target.value)"  ngModel>
+            <option value="" disabled selected>Select Project</option>
+              <option *ngFor="let project of projectNameList" value={{project.projectId}}>{{project.projectName}}</option>
+            </select>
+          </div>
+          <div class="fieldBox">
+            <select class="form-control" id="weekDuration" name="weekDuration"  [value]='weekDuration' 
+               ngModel>
+              <option *ngFor="let weekDuration of weekDurationList" value={{weekDuration}}>{{weekDuration}}</option>
+            </select>
+          </div>
+
+          <!--<div class="fieldBox">
+            <ng-multiselect-dropdown
+            class=".ng-multiselect-dropdown .dropdown-menu"
+            id ="status"
+            name="status"
+            [placeholder]="'Select Status'"
+            [data]="statusList"
+            [(ngModel)]="status" 
+            [settings]="dropdownSettings"
+            (onSelect)="onItemSelect($event)">
+        </ng-multiselect-dropdown>
+          </div>
+        -->    
+          
+          <div class="searchBtnBox">
+            <button type="submit" id="logSearchBtn" class="btn btn-primary" name="logSearchBtn">Search &nbsp;<i
+                class="fa fa-search" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </form> 
+    </div>
+   
+  <div class="clearfix"></div>
+    <div class="row">
+
+
+      <div class="table_color3">
+          <div class="container-fluid">
+            <ag-grid-angular style="height: 530px;" class="col8-Grid ag-theme-balham" [rowData]="rowData"
+              [columnDefs]="columnDefs" [frameworkComponents]="frameworkComponents" [enableSorting]="true" [enableFilter]="true" [rowHeight]="30" 
+              [suppressRowClickSelection]="true" [debug]="true" [enableColResize]="true" [enableRangeSelection]="true"
+              [paginationAutoPageSize]="false" [pagination]="true" [paginationPageSize]=15
+              [overlayLoadingTemplate]="overlayLoadingTemplate" (gridReady)="onGridReady($event)"
+              (cellClicked)="onCellClicked($event)" (rowClicked)="onRowClicked($event)" >
+
+            </ag-grid-angular>
+
+            <div class="app_btn">
+              <button type="button" class="btn btn-primary downloadBtn" data-toggle="modal" data-target=""
+                id="exportData" name="exportData" (click)="exportData()"><span
+                  class="glyphicon glyphicon-download-alt"></span>
+                Download</button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+  
+<app-log-details-model [projectID]=projectID [projectName]=projectName  [taskDetailList]=taskDetailList [fields]=fields></app-log-details-model>
+  
+
+  

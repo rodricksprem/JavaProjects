@@ -1,0 +1,20 @@
+<app-header></app-header>
+<app-side-bar 
+(loggingEvent)="receiveMessage($event)" 
+(userEvent)="receiveUser($event)" 
+(logDetailsEvent)="receiveLogDetails($event)" 
+(dashBoardEvent)="receiveDashBoard($event)"
+(newInterfaceEvent)="receiveNewInterface($event)"
+(projectStatusEvent)="receiveProjectStatus($event)">
+</app-side-bar>
+<app-dash-board-content *ngIf="dashBoardFlagparent"></app-dash-board-content>
+<app-logging *ngIf="logFlagparent"></app-logging>
+<!--<app-notification *ngIf="notificationFlagparent"></app-notification>-->
+<app-user *ngIf="userFlagparent"></app-user>
+<!-- <app-log-details *ngIf="logDetailsFlagparent"></app-log-details> -->
+<!-- <app-notification-details *ngIf="notificationDetailsFlagparent"></app-notification-details> -->
+<app-new-interface *ngIf="newInterfaceFlagparent"></app-new-interface>
+<app-project-status *ngIf="projectStatusFlagparent"></app-project-status>
+<!--<app-general-instruction *ngIf="generalInstruction"></app-general-instruction>-->
+<!--<app-data-purge *ngIf="dataPurge"></app-data-purge>-->
+<!-- <app-footer></app-footer> -->

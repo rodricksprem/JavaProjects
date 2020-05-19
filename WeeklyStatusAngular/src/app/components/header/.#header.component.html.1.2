@@ -1,0 +1,64 @@
+<header class="main-header">
+
+  <!-- Logo -->
+  <!-- <a href="index.html" class="logo">
+   <img src="assets/img/biogen-logo-refresh-new.svg" alt="logo">
+  </a> -->
+
+  <a href="index.html" class="logo_left logo">
+    <img src="assets/img/etm_logo.png" alt="logo">
+   </a>
+
+  <!-- Header Navbar: style can be found in header.less -->
+  <nav class="navbar navbar-static-top">
+    <!-- Sidebar toggle button-->
+    <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+      <span class="sr-only">Toggle navigation</span>
+    </a>
+    <!-- Navbar Right Menu -->
+  <div class="header_right clearfix">
+      <div class="logo_right">  
+          <a href="javascript:void(0);" class="logo">
+            <img src="assets/img/biogen-logo-refresh-new.svg" alt="logo">
+           </a>
+          <!-- <div class="login_sec clearfix">
+           <div class="log_name"> <p>Welcome! Jagathesewaren &nbsp;&nbsp;|</p></div>  <div class="log_out">&nbsp;&nbsp;&nbsp;<a href="#"><i class="fa fa-sign-out"></i> Logout</a></div>
+          </div>  -->
+        </div>
+        
+     <div class="navbar-custom-menu">
+      <ul class="nav navbar-nav">
+
+        <li class="dropdown user user-menu">
+          <a href="/login/" class="dropdown-toggle" data-toggle="dropdown">
+        
+           
+              <span class="hidden-xs">Welcome {{uname}}!</span>
+            
+          </a>
+         <ul class="dropdown-menu">
+            
+          <!--  <li class="user-header">
+              <p>
+                {{uname}}
+               <small>Last login: 08-23-2018</small>
+              </p>
+            </li>-->
+
+            <li class="user-footer">
+              <div class="pull-right">
+                <!--<a href="/weeklystatus/login" class="btn btn-default btn-flat">Sign out</a>-->
+                <a (click)="logOut()" class="btn btn-default btn-flat">Sign out</a>
+              </div>
+              
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+   
+  
+</div>
+
+  </nav>
+</header>

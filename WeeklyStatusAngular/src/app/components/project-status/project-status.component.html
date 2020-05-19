@@ -1,0 +1,100 @@
+<script>
+  var app = angular.module('myApp', []);
+  app.controller('myCtrl', function ($scope) {
+    $scope.interfaceName = this.interfaceName;
+  });
+</script>
+
+<div class="content-wrapper dashboard">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/weeklystatusui">Home</a></li>
+    <li class="breadcrumb-item">Project Status Management</li>
+  </ol>
+
+  <section class="content ">
+    <div class="row general_tab">
+      <div class="col-md-12" style="padding:0 !important; margin:0 !important">
+        <div class="panel with-nav-tabs panel-default">
+          <div class="panel-body createInterface">
+            <div class="tab-content ">
+
+              <div class="tab-pane fade in active" id="tab1default">
+
+
+                <form #integrationDetailsForm="ngForm" (ngSubmit)="saveProjectStatus(integrationDetailsForm.value)"
+                  class="form-horizontal" role="form" ngNativeValidate>
+                  <div id="successStatus" style="color: green;"></div>
+                  <div id="errorStatus" style="color: #FF0000;"></div>
+                  <div class="panel-group ">
+                    <div class="panel panel-default">
+                      <div class="clearfix"></div>
+                      <div class="clearfix"></div>
+                      <div class="panel-heading">Project Health Status</div>
+                      <div class="panel-body " style="padding-bottom:8px !important">
+
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <span class="mandatory">*</span>
+                            <div class="col-sm-11">
+                              <ng2-completer id="projectId" name="projectName" [datasource]="dataService"
+                                (selected)="onProjectSelcted($event)"
+                                placeholder="&nbsp;&nbsp;&nbsp;&#xf002; &nbsp;&nbsp;&nbsp;Quick Search or type Project Name"
+                                style="font-family:Arial, FontAwesome;width:100% !important" [minSearchLength]="2"
+                                ngModel></ng2-completer>
+
+                            </div>
+                          </div>
+
+                          <div class="col-sm-3">
+                            <div class="col-sm-10">
+                              <select class="form-control" id="weekDuration" name="weekDuration"  [value]='weekDuration'
+                              ngModel>
+                              <option value="" disabled selected>Select week</option>
+                              <option *ngFor="let week of weeks" value={{week}}>
+                                {{week}}</option>
+                            </select>
+                          
+                            </div>
+                        </div>
+
+                          <div class="col-sm-3">
+                            <div class="col-sm-11">
+                              <select class="form-control" id="projectStatus" name="projectStatus"  [value]='projectStatus'
+                               ngModel>
+                              <option value="" disabled selected>Select Project Health </option>
+                              <option *ngFor="let status of statuslist" value={{status}}>
+                                {{status}}</option>
+                            </select>
+                            </div>
+                          </div>
+                          <div class="btnArea1">
+                            <button type="submit" id="saveHealth" class="saveBtn" name="saveHealth"><i
+                                class="fa fa-save"></i>&nbsp;Save</button>
+                          </div>
+
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <!-- </form> -->
+                      </div>
+                    </div>
+
+                  </div>
+                  <!-- Source Systems -->
+                  
+                </form>
+              </div>
+              
+              <!-- Interface configuration ends here-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+
+  
+
+</div>

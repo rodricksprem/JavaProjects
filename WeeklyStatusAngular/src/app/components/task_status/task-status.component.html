@@ -1,0 +1,259 @@
+<script>
+  var app = angular.module('myApp', []);
+  app.controller('myCtrl', function ($scope) {
+    $scope.interfaceName = this.interfaceName;
+  });
+</script>
+
+<div class="content-wrapper dashboard">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/weeklystatusui">Home</a></li>
+    <li class="breadcrumb-item">Project Task Status Management</li>
+  </ol>
+
+  <section class="content ">
+    <div class="row general_tab">
+      <div class="col-md-12" style="padding:0 !important; margin:0 !important">
+        <div class="panel with-nav-tabs panel-default">
+          <div class="panel-body createInterface">
+            <div class="tab-content ">
+
+              <div class="tab-pane fade in active" id="tab1default">
+
+
+                <form #integrationDetailsForm="ngForm" (ngSubmit)="saveApplication(integrationDetailsForm.value)"
+                  class="form-horizontal" role="form" ngNativeValidate>
+                  <div id="successStatus" style="color: green;"></div>
+                  <div id="errorStatus" style="color: #FF0000;"></div>
+                  <div class="panel-group ">
+                    <div class="panel panel-default">
+                      <div class="clearfix"></div>
+                      <div class="clearfix"></div>
+                      <div class="panel-heading">Task Details</div>
+                      <div class="panel-body " style="padding-bottom:8px !important">
+
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <span class="mandatory">*</span>
+                            <div class="col-sm-11">
+                              <ng2-completer id="projectId" name="projectName" [datasource]="dataService"
+                              (selected)="onProjectSelcted($event)"  
+                                placeholder="&nbsp;&nbsp;&nbsp;&#xf002; &nbsp;&nbsp;&nbsp;Quick Search or type Project Name"
+                                style="font-family:Arial, FontAwesome;width:100% !important" [minSearchLength]="2"
+                                ngModel></ng2-completer>
+
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="col-sm-9">
+                              <select class="form-control" id="weekDuration" name="weekDuration"  [value]='weekDuration'
+                             (change)="onWeekChange($event.target.value)"  ngModel>
+                              <option value="" disabled selected>Select week</option>
+                              <option *ngFor="let week of weeks" value={{week}}>
+                                {{week}}</option>
+                            </select>
+                          
+                            </div>
+                            <button type="button" class="modalBtn" data-toggle="modal" data-target="#addWeek"><i
+                              class="fa fa-plus" title="add new week"></i></button>
+                              
+                             <button type="button" class="modalBtn" data-toggle="modal" (click)="removeWeek()"><i
+                              class="fa fa-minus" title="delete week"></i></button>
+
+                        </div>
+
+                          <div class="col-sm-3">
+                            <div class="col-sm-9">
+                              <select class="form-control" id="taskId" name="taskId"  [value]='taskDetail.taskId'
+                                (change)="selectTaskOption($event.target.value)" ngModel>
+                                <option value="" disabled selected>Task Id</option>
+                                <option *ngFor="let taskDetail of taskDetails" value={{taskDetail.taskId}}>
+                                  {{taskDetail.taskName}}</option>
+                              </select>
+                            </div>
+                            <button type="button" class="modalBtn" data-toggle="modal" data-target="#addTask"><i
+                                class="fa fa-plus" title="add new task"></i></button>
+
+                             <button type="button" class="modalBtn" data-toggle="modal" (click)="removeTask()"><i
+                                  class="fa fa-minus" title="delete task"></i></button>
+  
+                          </div>
+
+
+                          
+                          <div class="col-sm-3">
+                            <div class="col-sm-11">
+                              <input type="text" class="form-control " id="taskType" name="taskType"
+                                [value]='taskDetail.taskType' placeholder="Task Type" disabled="false" ngModel
+                                [required]="true">
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <!-- </form> -->
+                      </div>
+                    </div>
+
+                  </div>
+                  <!-- Source Systems -->
+                  <div class="panel-group ">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <div class="col-sm-6 ">
+                          <span>Task Status Details</span>
+
+
+                          <button type="button" class="pull-right addNotiBtn add-more" id="createStatus" title="add  more status"
+                            style="float:right !important" name="createStatus" (click)="addmoreStatusSystem()"><i
+                              class="fa fa-plus"></i></button>
+
+                        </div>
+                        <div class="col-sm-6">
+                        </div>
+                      </div>
+                      <div class="panel-body createInterface" style="padding:0 !important">
+                        <form [formGroup]="statusSystemFormArray" (ngSubmit)="saveOrDeleteStatus(statusSystemFormArray)"
+                          class="form-horizontal" ngNativeValidate>
+                          <div formArrayName="statusRow">
+                            <div *ngFor="let strow of statusSystemFormArray.controls.statusRow.controls; let i=index"
+                              [formGroupName]="i">
+
+
+                              <div *ngFor="let field of fields[i]; let j=index">
+                                  <div class="col-sm-3">
+  
+                                    <span class="mandatory" *ngIf="field.required">*</span>
+                          
+                                    <div class="col-sm-11" [ngSwitch]="field.type"  style="padding-left: 0px !important; padding-right: 0px !important; padding-top: 10px">
+                                      <div *ngSwitchCase="'text'">
+                                        <input *ngIf="!field.multiline" [attr.type]="field.type" class="form-control"
+                                          [id]="field.name" [name]="field.name" [formControlName]="field.name"
+                                          [placeholder]="field.placeholder" [value]="field.value">
+                                        <textarea *ngIf="field.multiline" [formControlName]="field.name" [id]="field.name"
+                                          rows="3" class="form-control" [placeholder]="field.placeholder"></textarea>
+                                      </div>
+                                      <div class="col-sm-11" *ngSwitchCase="'date'" class="datepick"  style="padding-left: 0px !important; padding-right: 0px !important; padding-top: 10px">
+
+                                        <input  class="form-control dateInputPos unstyled" 
+                                        [attr.type]="field.type"
+                                          [formControlName]="field.name" [id]="field.name" [name]="field.name"
+                                          [placeholder]="field.placeholder" [value]="field.value">
+                                      </div>
+                                    
+                                    </div>
+                                  </div>
+                                  
+                                
+
+
+                              </div>
+                              <div class="col-sm-3">
+                              </div>
+
+
+                              <div class="col-sm-1"  style="padding-left: 0px !important; padding-right: 0px !important; padding-top: 10px">
+                                <button class="removeCRBtn"
+                                  *ngIf="showDeleteButton && statusSystemFormArray.controls.statusRow.controls.length >= 1"
+                                  (click)="deleteStatusSystemRow(i)" type="button"><i
+                                    class="glyphicon glyphicon-remove"></i></button>
+                              </div>
+                              <div class="row separator"> </div>
+                            </div> 
+                          </div>
+                          
+                          <div class="clearfix"></div>
+                          <div class="btnArea1">
+                            <button type="submit" id="saveStatusDetails" class="saveBtn" name="saveStatusDetails" (click)="onSaveClick()"><i
+                                class="fa fa-save"></i>&nbsp;Save</button>
+                                <button type="submit" id="deleteStatusDetails" class="saveBtn" name="deleteStatusDetails"  (click)="onDeleteClick()"><i 
+                                  class="fa fa-save "></i>&nbsp;Delete</button>
+                          </div>
+                         
+                        </form>
+
+                      </div>
+
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+              
+              <!-- Interface configuration ends here-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+<!-- Add week-->
+  <div id="addWeek" class="modal fade createInterface " role="dialog">
+    <div class="modal-dialog" style="width:550px !important">
+
+      <!-- Modal content-->
+      <form #weekForm="ngForm" (ngSubmit)="saveWeek(weekForm.value)" class="form-horizontal" role="form"
+        ngNativeValidate>
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <span class="modal-title">Add week  Detail</span>
+          </div>
+
+          <div class="modal-body">
+            <div id="taskStatus" style="color: #FF0000;"></div>
+            <div class="col-sm-12">
+              <input type="date"  class="form-control " id=selectedDate name="selectedDate"
+                placeholder="Select Week Start Date" ngModel>
+            </div>
+            <div class="clearfix"></div><br />
+           </div>
+          <div class="modal-footer">
+            <button type="submit" id="weekSave" name="weekSave" class="saveBtn">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- add Task -->
+  <div id="addTask" class="modal fade createInterface " role="dialog">
+    <div class="modal-dialog" style="width:550px !important">
+
+      <!-- Modal content-->
+      <form #taskForm="ngForm" (ngSubmit)="saveTask(taskForm.value)" class="form-horizontal" role="form"
+        ngNativeValidate>
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <span class="modal-title">Add Task Detail</span>
+          </div>
+
+          <div class="modal-body">
+            <div id="taskStatus" style="color: #FF0000;"></div>
+            <div class="col-sm-12">
+              <input type="text" class="form-control " id="taskName" name="taskName"
+                placeholder="Enter Task Description (max len 50 characters)" ngModel>
+            </div>
+            <div class="clearfix"></div><br />
+            <div class="col-sm-12">
+              <input type="text" class="form-control " id="taskType" name="taskType" placeholder="Enter Task Type"
+                ngModel>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" id="taskSave" name="taskSave" class="saveBtn">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  
+
+</div>

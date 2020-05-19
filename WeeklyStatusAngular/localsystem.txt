@@ -1,0 +1,38 @@
+for setting up local server deployments
+--------------------------
+1) EisUtil_Angular and EISUtil_Web deployments
+----------------------------------------
+1	uncomment the /eisutlweb  url and comment remaining things in app-constant.service.ts
+2	build angualr code and paste in the eisUtilWeb/static folder							
+3	uncomment the cross orgin annotation in all controller class						
+5	un comment the data source, comment the db connection details in Application.properties
+4	build the eisUtilWeb war file
+-------------------------------------------------------------------------------------------------
+setting up of local environment EisUtil_Angular
+-------------------------------------------
+1	uncomment the localhosturl  url and comment remaining things in app-constant.service.ts
+2. change the <base href="/weeklyStatus/"> to <base href="/"> in index.html
+3. in case need admin tab wants to enable make changes in side-bar.component.html
+	a)  <li class="treeview" *ngIf="userType == 1">  comment the code
+	b) un comment the <li class="treeview">
+4) in case dont want to redirect to error page comment the below code in GlobalErrorHandler.ts
+	router.navigate(['/error'],{ queryParams: error });
+--------------------------------------------------------------------------------
+setting up of local environment EISUtil_Web
+------------------------------------------------------------------
+1)un comment the crossOrging annotation in all controller classes
+2)un comment the bioUserServ  = bioLogUserService.getBUDataList("rjilakar"); in dashboardController(line:97) and BUSearchController (line:87)	
+3) comment out the extends section in Application.java (line:16)
+4) comment out the configure override method in Application.java (line:23 to 26)
+5) un comment  the last filter (line:181 to 186), and comment out the first filter(line:138 to 146) of configure method in WebSecurityConfig.java.
+6) un comment the below class annotations in WebSecurityConfig.java
+	@Configuration (line:39)
+	@EnableWebSecurity (line:40)
+7) comment out the spring.datasource.jndi-name property in Application.properties file (line: 17)
+8) un comment respective database connection details, if not available set the below properites like below in Application.properties
+	spring.datasource.url=jdbc:oracle:thin:@etm.colljo3lrq6l.us-east-1.rds.amazonaws.com:1725/ETM
+	spring.datasource.username=ETMCLD
+	spring.datasource.password=A1w1s1d1
+9) clean install maven and run the spring boot app,
+
+then your local environment setup is ready.

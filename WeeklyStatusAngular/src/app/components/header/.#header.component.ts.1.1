@@ -1,0 +1,49 @@
+import { Component, OnInit, Input,Output,EventEmitter } from '@angular/core';
+import { UserSessionService } from '../../service/user-session.service';
+import { Router } from '@angular/router';
+declare var  $:any;
+@Component({
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
+})
+export class HeaderComponent implements OnInit {
+  @Output() loginEvent = new EventEmitter<string>();
+  //@Input('uname') uname: string;
+  uname: String;
+  constructor(private _userSessionService:UserSessionService, private _router:Router) { }
+
+  ngOnInit() {
+
+    $(document).ready(function(){
+      $('.sidebar ul li.parent').click(function(){
+      $('li.parent').removeClass("active");
+      $(this).addClass("active");
+    });
+    });
+ 
+    $('.treeview').click(function(){
+      $(this).addClass("sub_menu");
+    });
+
+    $('.sidebar-menu li.parent').click(function(){
+      $('.treeview').removeClass("sub_menu");
+    });
+
+     if(this._userSessionService.getUserName() == null || this._userSessionService.getUserName().trim() == "")
+     {
+       this._router.navigate(['']);
+     }
+     else
+     {
+       this.uname = this._userSessionService.getUserName();
+     }
+  }
+
+  logOut()
+  {
+    this.loginEvent.emit("true");
+   
+  }
+
+}

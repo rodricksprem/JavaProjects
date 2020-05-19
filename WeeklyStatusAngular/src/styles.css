@@ -1,0 +1,145 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~ag-grid/dist/styles/ag-grid.css";
+@import "~ag-grid/dist/styles/ag-theme-balham.css";
+@import "~ag-grid/dist/styles/ag-theme-balham-dark.css";
+@import "~ag-grid/dist/styles/ag-theme-blue.css";
+@import "~ag-grid/dist/styles/ag-theme-dark.css";
+@import "~ag-grid/dist/styles/ag-theme-fresh.css";
+@import "~ag-grid/dist/styles/ag-theme-material.css";
+
+.first_set .panel-info>.panel-heading{ background:#0076bc; color:#fff;}
+.first_set .panel-info { border-color: #0076bc;}
+.first_set .col-sm-12.controls .btn-primary{background-color: #0076bc;}
+
+.second_set .panel-info>.panel-heading{ background:#96c93d; color:#fff;}
+.second_set .panel-info { border-color: #96c93d;}
+.second_set .col-sm-12.controls .btn-primary{background-color: #96c93d;border-color: #96c93d;}
+.second_set input{height:auto;padding: 14px 12px;border-top-right-radius: 6px;border-bottom-right-radius: 6px;}
+.second_set .input-group .input-group-addon{border-top-left-radius: 6px;border-bottom-left-radius: 6px;}
+
+
+#container {
+    height: 800px;
+}
+
+.highcharts-figure, .highcharts-data-table table {
+    min-width: 320px; 
+    max-width: 800px;
+    margin: 1em auto;
+}
+
+.highcharts-data-table table {
+	font-family: Verdana, sans-serif;
+	border-collapse: collapse;
+	border: 1px solid #EBEBEB;
+	margin: 10px auto;
+	text-align: center;
+	width: 100%;
+	max-width: 500px;
+}
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+.highcharts-data-table th {
+	font-weight: 600;
+    padding: 0.5em;
+}
+.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+    padding: 0.5em;
+}
+.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+
+.ld-label {
+	width:200px;
+	display: inline-block;
+}
+
+.ld-url-input {
+	width: 500px; 
+}
+
+.ld-time-input {
+	width: 40px;
+}
+.highcharts-container tspan{
+    font-family: Arial, Helvetica, sans-serif !important;
+    stroke-width: 0% !important;
+    color: #000000 !important;
+}
+.highcharts-container text{
+    color: #000000 !important;
+    fill: #000000 !important;
+    font-weight: normal !important;
+}
+
+.multiselect-dropdown[_ngcontent-c9] .dropdown-btn[_ngcontent-c9] {
+    font-family:  sans-serif !important;
+    font-size: 11px !important;
+    height: 30px !important;
+    border-radius: 7px !important;
+    padding-left: 2px !important;
+    padding-top: 8px !important;
+    width: 100% !important;
+    background-color: #ffffff !important;
+    border: 1px solid #ccc !important;
+    line-height: 1.1 !important;
+}
+
+.multiselect-dropdown[_ngcontent-c9] .dropdown-btn[_ngcontent-c9] .dropdown-down[_ngcontent-c9] {
+    border-top: 4px solid #0f0b0b !important;
+    border-left: 4px solid transparent !important;
+    border-right: 4px solid transparent !important;
+}
+.multiselect-dropdown[_ngcontent-c9] .dropdown-btn[_ngcontent-c9] .dropdown-up[_ngcontent-c9] {
+    border-bottom: 4px solid #0f0b0b !important;
+    border-left: 4px solid transparent !important;
+    border-right: 4px solid transparent !important;
+}
+
+
+.multiselect-dropdown[_ngcontent-c9] .dropdown-btn[_ngcontent-c9] .selected-item[_ngcontent-c9] {
+    font-size: 7pt !important;
+    padding: 0 2px !important;
+    border: 0px solid #33333308 !important;
+    color: #333 !important;
+    font-family:  inherit !important;
+    background: #337ab703 !important;
+}
+
+.multiselect-item-checkbox[_ngcontent-c9] input[type=checkbox][_ngcontent-c9] + div[_ngcontent-c9] {
+  
+    font-size: 10px !important;
+    font-family:  sans-serif !important;
+  }
+.multiselect-item-checkbox[_ngcontent-c9] input[type=checkbox][_ngcontent-c9] + div[_ngcontent-c9]:before {
+    color: #333 !important;
+    top: 90% !important;
+    width: 8px !important;
+    height: 8px !important;
+    margin-top: -11px !important;
+    border: 1px solid #333 !important;
+    text-align: left !important;
+    font-size: 11px !important;
+    font-family:  sans-serif !important;
+
+}
+.multiselect-item-checkbox[_ngcontent-c9] input[type=checkbox][_ngcontent-c9]:checked + div[_ngcontent-c9]:before {
+    
+    background: #555 !important;
+}
+
+.multiselect-dropdown[_ngcontent-c9] .dropdown-btn[_ngcontent-c9] .selected-item[_ngcontent-c9] a[_ngcontent-c9] {
+    color: #333 !important;
+}
+
+.multiselect-item-checkbox[_ngcontent-c9] input[type=checkbox][_ngcontent-c9] + div[_ngcontent-c9]:after {
+
+    border-style: none !important; 
+}

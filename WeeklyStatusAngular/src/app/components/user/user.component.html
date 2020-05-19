@@ -1,0 +1,113 @@
+<div class="content-wrapper user">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/weeklystatusui">Home</a></li>
+    <li class="breadcrumb-item">User Management</li>
+  </ol>
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="top_search main_search search_tab clearfix">
+          <!-- new search start -->
+          <div class="container-fluid" style="padding:0 !important">
+            <div class="panel panel-default" style="margin:0 !important">
+              <div class="panel-body" style="padding: 8px 15px !important">
+                <div id="successStatus" style="color: green;"></div>
+                <div id="errorStatus" style="color: #FF0000;"></div>
+                <div class="searchBox" style="padding-bottom:0px !important">
+                  <form #bioLogUserForm="ngForm" (ngSubmit)="saveOrDeleteUser(bioLogUserForm.value)"
+                    class="form-horizontal" role="form">
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <span class="mandatory">*</span>
+                        <div class="col-sm-11">
+                          <!--    <ng2-completer id="userId" name="userId" [datasource]="userListCons" placeholder="Enter User Id" style="font-family:Arial, FontAwesome" [minSearchLength]="2" ngModel></ng2-completer>
+                      --> <input type="text" class="form-control " id="userId" name="userId" placeholder="User ID"
+                            ngModel>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="col-sm-11">
+                          <input type="password" class="form-control " id="password" name="password"
+                            placeholder="Password" ngModel>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <span class="mandatory">*</span>
+                        <div class="col-sm-11">
+                          <input type="text" class="form-control " id="username" name="username" placeholder="username"
+                            ngModel>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-3">
+                        <span class="mandatory">*</span>
+                        <div class="col-sm-11">
+                          <input type="text" class="form-control " id="email" name="email" placeholder="email" ngModel>
+                        </div>
+                      </div>
+                    </div>
+                   
+                    <div class="row">
+
+                      <div class="col-sm-3"> 
+                        <span class="mandatory">*</span>
+                        <div class="col-sm-11">
+                          <!--  <select class="form-control " id="userType" name="userType" [value] ='userType' ngModel>
+                          <option value="" disabled selected>User Type</option>
+                          <option *ngFor="let userRole of userTypeList" value={{userRole}}>{{userRole}}
+                          </option>
+                        </select>-->
+                          <ng-multiselect-dropdown idField="userType" [data]="userTypeList" name="userType"
+                            [(ngModel)]="selectedItems" [settings]="dropdownSettings"
+                            (onDeSelect)="onItemDeSelect($event)" (onSelect)="onItemSelect($event)"
+                            (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)" ngModel>
+                          </ng-multiselect-dropdown>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <span class="mandatory">*</span>
+                      <div class="col-sm-11" >
+                          <ng-multiselect-dropdown idField="projectName" [data]="projectList" name="projectDetails"  
+                          [(ngModel)]="selectedProjectItems" [settings]="projectDropdownSettings" (onDeSelect)="onProjectDeSelect($event)"
+                          (onSelect)="onProjectSelect($event)" (onSelectAll)="onSelectAllProject($event)" (onDeSelectAll)="onDeSelectAllProject($event)" ngModel>
+                        </ng-multiselect-dropdown>
+                      
+                          </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="col-sm-11" >
+                        <button type="submit" id="userSave" class="saveBtns" name="userSave" (click)="onSaveClick()"><i
+                            class="fa fa-save "></i>&nbsp;Save</button>
+                          </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="col-sm-11" >
+                        <button type="submit" id="userDelete" class="saveBtns" name="userDelete"
+                          (click)="onDeleteClick()"><i class="fa fa-save "></i>&nbsp;Delete</button>
+                      </div>
+                      </div>
+
+
+
+
+                      <div class="clearfix"></div>
+                    </div>
+                
+
+                </form>
+              
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </div>
+
+</div>
+</section>
+</div>
