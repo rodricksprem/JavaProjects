@@ -39,7 +39,6 @@ export class DashBoardContentComponent implements OnInit {
   defBUAppName = "0";
   defBUEntity = "0";
   defBUes = "0";
-  defDuration = "7";
   projectName:string;
   ticketDataList:Array<TicketData>=[];
   meezaTicketDataList:Array<TicketData>=[];
@@ -83,7 +82,12 @@ export class DashBoardContentComponent implements OnInit {
 
       // Created pie chart using Highchart
       chart: {
-       type: "spline"
+       type: "spline",
+       events: {
+        load: function() {
+          this.xAxis[0].setExtremes(0, 5);
+        }
+      }
       },
       title: {
         text: this.ticketDataList[0].projectName
@@ -92,15 +96,10 @@ export class DashBoardContentComponent implements OnInit {
         text: ''
       },
       xAxis: {
-        startOfWeek: 1,
-        type: 'datetime',
-
-        labels: {
-            formatter: function () {
-                return Highcharts.dateFormat('%a %e %b', this.value);
-            }
-        }
-    },
+        tickmarkPlacement: 'between',
+        //tickmarkPlacement: 'on',
+        categories: appData[4]
+      },
       yAxis: {
         title: {
           text: 'Number of Tickets'
@@ -112,15 +111,7 @@ export class DashBoardContentComponent implements OnInit {
         verticalAlign: 'middle',
         
     },
-      plotOptions: {
-        series: {
-          label: {
-              connectorAllowed: false
-          },
-          pointStart:  Date.UTC(2020, 3, 30),
-          pointInterval: 2 * 24 * 3600 * 1000
-        }
-      },
+     
       series: [{
         name: 'L1TicketsOpened',
         colors: ['#7cb5ec'],
@@ -148,7 +139,7 @@ export class DashBoardContentComponent implements OnInit {
       responsive: {
         rules: [{
             condition: {
-                maxWidth: 500
+                maxWidth: 200
             },
             chartOptions: {
                 legend: {
@@ -192,7 +183,12 @@ export class DashBoardContentComponent implements OnInit {
 
       // Created pie chart using Highchart
       chart: {
-       type: "spline"
+       type: "spline",
+       events: {
+        load: function() {
+          this.xAxis[0].setExtremes(0, 5);
+        }
+      }
       },
       title: {
         text: this.meezaTicketDataList[0].projectName
@@ -201,15 +197,10 @@ export class DashBoardContentComponent implements OnInit {
         text: ''
       },
       xAxis: {
-        startOfWeek: 1,
-        type: 'datetime',
-
-        labels: {
-            formatter: function () {
-                return Highcharts.dateFormat('%a %e %b', this.value);
-            }
-        }
-    },
+        tickmarkPlacement: 'between',
+        //tickmarkPlacement: 'on',
+        categories: appData[4]
+      },
       yAxis: {
         title: {
           text: 'Number of Tickets'
@@ -221,15 +212,6 @@ export class DashBoardContentComponent implements OnInit {
         verticalAlign: 'middle',
         
     },
-      plotOptions: {
-        series: {
-          label: {
-              connectorAllowed: false
-          },
-          pointStart:  Date.UTC(2020, 3, 20),
-          pointInterval: 3 * 24 * 3600 * 1000
-        }
-      },
       series: [{
         name: 'L1TicketsOpened',
         colors: ['#7cb5ec'],
@@ -257,7 +239,7 @@ export class DashBoardContentComponent implements OnInit {
       responsive: {
         rules: [{
             condition: {
-                maxWidth: 500
+                maxWidth: 200
             },
             chartOptions: {
                 legend: {
@@ -279,11 +261,11 @@ export class DashBoardContentComponent implements OnInit {
     let catagoriesval: any[];
     
     let index: number = 0;
-    appData[0] = [];//l1IssuesOpened
-      appData[1] = [];//l1IssuesClosed
-      appData[2] = [];//l2IssuesOpened
-      appData[3] = [];//l2IssuesClosed
-      appData[4] = []; //ticketCreatedDate
+    appData[0] = [];//availCPULoad
+      appData[1] = [];//availMemSpace
+      appData[2] = [];//availStorageSpace
+      appData[3] = [];//numberOfServices
+      appData[4] = []; //numberOfDb
       catagoriesval=[];
        //ticketCreatedDate
     for (let applicationData of this.infraDataList) {
@@ -377,37 +359,41 @@ export class DashBoardContentComponent implements OnInit {
   }
   public Infra2Chart(weekSelected:string) {
     console.log(this.ivmsInfraDataList)
+    console.log(" selected week ",weekSelected);
     let appData: any[][];
     appData = [];
     let catagoriesval: any[];
     
     let index: number = 0;
-    appData[0] = [];//l1IssuesOpened
-      appData[1] = [];//l1IssuesClosed
-      appData[2] = [];//l2IssuesOpened
-      appData[3] = [];//l2IssuesClosed
-      appData[4] = []; //ticketCreatedDate
-      appData[5] = [];
-      appData[6] = [];
-      catagoriesval=[];
+    appData[0] = [];//appAvailablity
+      appData[1] = [];//dbAvailablity
+      appData[2] = [];//serverAvailablity
+      appData[3] = [];//numberOfVehicles
+      appData[4] = []; //numberOfServers
+      appData[5] = [];//numberOfClients
+      appData[6] = [];//numberOfDb
+      catagoriesval=[];//
        //ticketCreatedDate
     for (let applicationData of this.ivmsInfraDataList) {
       //subCharData.push([data.name, data.y]) ;
       if(applicationData.weekDuration==weekSelected){
+        console.log(" applicationData.weekDuration matched");
       appData[0][index] = applicationData.appAvailablity;
-      appData[1][index] = applicationData.dbAvailablity
+      appData[1][index] = applicationData.dbAvailablity;
       appData[2][index] = applicationData.serverAvailablity;
       appData[3][index] = applicationData.numberOfVehicles/100;
       appData[4][index] = applicationData.numberOfServers;
       appData[5][index] = applicationData.numberOfClients;
       appData[6][index] = applicationData.numberOfDb;
+      catagoriesval[index] = applicationData.virtualFarms;
+      index = index + 1;
 
       }
-      catagoriesval[index] = applicationData.virtualFarms;
+   
       
       console.log(appData);
       console.log(" iteration ",index);
-      index = index + 1;
+      
 
     }
     
@@ -454,7 +440,7 @@ export class DashBoardContentComponent implements OnInit {
     
       series: [
         {
-            name:'App Availablity in %',
+            name:'Up Time Availablity in %',
             data: appData[0],
             stack:0
             
@@ -502,12 +488,6 @@ export class DashBoardContentComponent implements OnInit {
   ngOnInit() {
 
    
-    Highcharts.setOptions({
-      lang: {
-        drillUpText: '< Back'
-      }
-    });
-
        this._dashboardService.getWeeks().pipe().subscribe((weeksList:String[]) => {
       this.weeks=weeksList;
       console.log("this.weeks "+this.weeks);
@@ -547,7 +527,7 @@ export class DashBoardContentComponent implements OnInit {
 
     this._dashboardService.getChartDataIVMSIMpl().subscribe((infraDataList:IVMSInfraData[]) => {
       this.ivmsInfraDataList=[]
-      var weekselected="Mar 30,2020-Apr 05,2020";
+      var weekselected="Apr 20,2020-Apr 26,2020";
      this.ivmsInfraDataList=infraDataList;
       console.log("ivminfraDataList ",this.ivmsInfraDataList.length);
       this.Infra2Chart(weekselected);
@@ -560,7 +540,8 @@ export class DashBoardContentComponent implements OnInit {
 
     this._dashboardService.getChartDataCGTechImpl().subscribe((infraDataList:InfraData[]) => {
       this.infraDataList=[]
-      var weekselected="Mar 30,2020-Apr 05,2020"
+      var weekselected="Apr 20,2020-Apr 26,2020";
+
       this.infraDataList=infraDataList;
       console.log("infraDataList ",this.infraDataList.length);
       this.Infra1Chart(weekselected);
@@ -599,6 +580,6 @@ export class DashBoardContentComponent implements OnInit {
    
 
   }
-  
 
+ 
 }

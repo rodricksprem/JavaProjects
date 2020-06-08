@@ -39,5 +39,10 @@ export class Fields {
 	locationFlag:boolean=false;
     statusFlag:boolean=false;
 	resourceFlag:boolean=false;
-	
+	activityFlag=false;
+	accountFlag=false;
+	memberFlag=false;
+	developmentFlag=false;	
+	subProjectFlag=false;
+	subProjectTypeFlag=false;
 }

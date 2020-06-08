@@ -30,14 +30,18 @@
                         <table  class="logmain logdet table-striped" border="1">
                           
                           <tr *ngIf="taskDetailList?.length > 0">
-                            <td *ngIf="fields.issueIdFlag"><b> Issue Id</b> </td>
+                            <td *ngIf="fields.issueNumberFlag"><b> Issue Id</b> </td>
                             <td><b>Date</b> </td>
                             <td><b>TaskName</b> </td>
                             <td *ngIf="fields.taskTypeFlag"><b> TaskType</b> </td>
-                            <td *ngIf="fields.serverFlag"><b> Server Name</b> </td>
+                            <td *ngIf="fields.serverNameFlag"><b> Server Name</b> </td>
+                            <td *ngIf="fields.accountFlag"><b> Account</b> </td>
+                            <td *ngIf="fields.subProjectFlag"><b> Project Name</b> </td>
+                            <td *ngIf="fields.subProjectTypeFlag"><b> Project Type</b> </td>
                             <td *ngIf="fields.requestedByFlag"><b> Requested By</b> </td>
                             <td *ngIf="fields.approvedByFlag"><b>Approved By</b> </td>
                             <td *ngIf="fields.statusFlag"><b>Status</b> </td>
+                            <td *ngIf="fields.moduleFlag"><b>module</b> </td>
                             <td *ngIf="fields.l1IssuesOpenedFlag"><b> L1IssuesOpened</b> </td>
                             <td *ngIf="fields.l1IssuesClosedFlag"><b> L1IssuesClosed</b> </td>
                             <td *ngIf="fields.l2IssuesOpenedFlag"><b> L2IssuesOpened</b> </td>
@@ -59,53 +63,66 @@
                             <td *ngIf="fields.availMemSpaceFlag"><b> AvailMemSpace</b> </td>
                             <td *ngIf="fields.availStorageSpaceFlag"><b> AvailStorageSpace</b> </td>
                             <td *ngIf="fields.dbAvailablityFlag"><b> DbAvailablity</b> </td>
-                            <td *ngIf="fields.appAvailablityFlag"><b> AppAvailablity</b> </td>
+                            <td *ngIf="fields.appAvailablityFlag"><b> Up time Availablity</b> </td>
                             <td *ngIf="fields.numClientsFlag"><b> NumClients</b> </td>
                             <td *ngIf="fields.numServiceFlag"><b> NumService</b> </td>
                             <td *ngIf="fields.numVechiclesFlag"><b> NumVechicles</b> </td>
                             <td *ngIf="fields.locationFlag"><b> Location</b> </td>
+                            <td *ngIf="fields.resourceFlag"><b> Resource</b> </td>
+                            <td *ngIf="fields.activityFlag"><b> Activity</b> </td>
+                            <td *ngIf="fields.memberFlag"><b> Memeber</b> </td>
+                            <td *ngIf="fields.developmentFlag"><b> Memeber</b> </td>
                             
+
 
                           </tr>
                           <ng-container *ngFor="let taskDetail of taskDetailList; let i = index">
                             <ng-container *ngFor="let projectStatusDetail of taskDetail.projectStatusDetails; let j = index">
                             <tr>
-                            <td *ngIf="fields.issueIdFlag">{{projectStatusDetail.issueNumber}}</td>
+                            <td *ngIf="fields.issueNumberFlag">{{projectStatusDetail.issueNumber}}</td>
                             <td>{{projectStatusDetail.dateSelection}}</td>
                             <td> {{taskDetail.taskName}}</td>
                             <td *ngIf="fields.taskTypeFlag"> {{taskDetail.taskType}}</td>
-                            <td *ngIf="fields.serverFlag"> {{projectStatusDetail.server}}</td>
+                            <td *ngIf="fields.serverNameFlag"> {{projectStatusDetail.serverName}}</td>
+                            <td *ngIf="fields.accountFlag">{{projectStatusDetail.account}} </td>
+                            <td *ngIf="fields.subProjectFlag">{{projectStatusDetail.subProject}} </td>
+                            <td *ngIf="fields.subProjectTypeFlag">{{projectStatusDetail.subProjectType}} </td>
                             <td *ngIf="fields.requestedByFlag">{{projectStatusDetail.requestedBy}}</td>
                             <td *ngIf="fields.approvedByFlag">{{projectStatusDetail.approvedBy}}</td>
                             <td *ngIf="fields.statusFlag">{{projectStatusDetail.status}}</td>
-                            <td *ngIf="fields.modelFlag">{{projectStatusDetail.model}}</td>
+                            <td *ngIf="fields.moduleFlag">{{projectStatusDetail.module}}</td>
                             <td *ngIf="fields.l1IssuesOpenedFlag">{{projectStatusDetail.l1IssuesOpened}}</td>
                             <td *ngIf="fields.l1IssuesClosedFlag">{{projectStatusDetail.l1IssuesClosed}}</td>
                             <td *ngIf="fields.l2IssuesOpenedFlag">{{projectStatusDetail.l2IssuesOpened}}</td>
                             <td *ngIf="fields.l2IssuesClosedFlag">{{projectStatusDetail.l2IssuesClosed}}</td>
-                            <td *ngIf="fields.descriptionFlag"><b>{{projectStatusDetail.description}}</b> </td>
-                            <td *ngIf="fields.developmentCompletionFlag"><b>{{projectStatusDetail.developmentCompletion}}</b> </td>
-                            <td *ngIf="fields.remarksFlag"><b>{{projectStatusDetail.remarks}}</b> </td>
-                            <td *ngIf="fields.numBuildSprintWorkdFlag"><b>{{projectStatusDetail.numBuildSprintWorkd}}</b> </td>
-                            <td *ngIf="fields.numberBuildSprintCompletedFlag"><b>{{projectStatusDetail.numberBuildSprintCompleted}}</b> </td>
-                            <td *ngIf="fields.testsPerDayFlag"><b>{{projectStatusDetail.testsPerDay}}</b> </td>
-                            <td *ngIf="fields.customerNameFlag"><b>{{projectStatusDetail.customerName}}</b> </td>
-                            <td *ngIf="fields.resolutionFlag"><b>{{projectStatusDetail.resolution}}</b> </td>
-                            <td *ngIf="fields.targetDateFlag"><b> {{projectStatusDetail.targetDate}}</b> </td>
-                            <td *ngIf="fields.virtualFarmsFlag"><b> {{projectStatusDetail.virtualFarms}}</b> </td>
-                            <td *ngIf="fields.numOfServersFlag"><b>{{projectStatusDetail.numOfServers}}</b> </td>
-                            <td *ngIf="fields.numOfDBsFlag"><b>{{projectStatusDetail.numOfDBs}}</b> </td>
-                            <td *ngIf="fields.serverAvailablityFlag"><b>{{projectStatusDetail.serverAvailablity}}</b> </td>
-                            <td *ngIf="fields.cpuLoadFlag"><b>{{projectStatusDetail.cpuLoad}}</b> </td>
-                            <td *ngIf="fields.availMemSpaceFlag"><b>{{projectStatusDetail.availMemSpace}}</b> </td>
-                            <td *ngIf="fields.availStorageSpaceFlag"><b>{{projectStatusDetail.availStorageSpace}}</b> </td>
-                            <td *ngIf="fields.dbAvailablityFlag"><b>{{projectStatusDetail.dbAvailablity}}</b> </td>
-                            <td *ngIf="fields.appAvailablityFlag"><b>{{projectStatusDetail.appAvailablity}}</b> </td>
-                            <td *ngIf="fields.numClientsFlag"><b>{{projectStatusDetail.numClients}}</b> </td>
-                            <td *ngIf="fields.numServiceFlag"><b>{{projectStatusDetail.numService}}</b> </td>
-                            <td *ngIf="fields.numVechiclesFlag"><b>{{projectStatusDetail.numVechicles}}</b> </td>
-                            <td *ngIf="fields.locationFlag"><b>{{projectStatusDetail.location}}</b> </td>
-                         </tr>
+                            <td *ngIf="fields.descriptionFlag">{{projectStatusDetail.description}} </td>
+                            <td *ngIf="fields.developmentCompletionFlag">{{projectStatusDetail.developmentCompletion}} </td>
+                            <td *ngIf="fields.remarksFlag">{{projectStatusDetail.remarks}} </td>
+                            <td *ngIf="fields.numBuildSprintWorkdFlag">{{projectStatusDetail.numBuildSprintWorkd}} </td>
+                            <td *ngIf="fields.numberBuildSprintCompletedFlag">{{projectStatusDetail.numberBuildSprintCompleted}} </td>
+                            <td *ngIf="fields.testsPerDayFlag">{{projectStatusDetail.testsPerDay}} </td>
+                            <td *ngIf="fields.customerNameFlag">{{projectStatusDetail.customerName}} </td>
+                            <td *ngIf="fields.resolutionFlag">{{projectStatusDetail.resolution}} </td>
+                            <td *ngIf="fields.targetDateFlag"> {{projectStatusDetail.targetDate}} </td>
+                            <td *ngIf="fields.virtualFarmsFlag"> {{projectStatusDetail.virtualFarms}} </td>
+                            <td *ngIf="fields.numOfServersFlag">{{projectStatusDetail.numOfServers}} </td>
+                            <td *ngIf="fields.numOfDBsFlag">{{projectStatusDetail.numOfDBs}} </td>
+                            <td *ngIf="fields.serverAvailablityFlag">{{projectStatusDetail.serverAvailablity}} </td>
+                            <td *ngIf="fields.cpuLoadFlag">{{projectStatusDetail.cpuLoad}} </td>
+                            <td *ngIf="fields.availMemSpaceFlag">{{projectStatusDetail.availMemSpace}} </td>
+                            <td *ngIf="fields.availStorageSpaceFlag">{{projectStatusDetail.availStorageSpace}} </td>
+                            <td *ngIf="fields.dbAvailablityFlag">{{projectStatusDetail.dbAvailablity}} </td>
+                            <td *ngIf="fields.appAvailablityFlag">{{projectStatusDetail.appAvailablity}} </td>
+                            <td *ngIf="fields.numClientsFlag">{{projectStatusDetail.numClients}} </td>
+                            <td *ngIf="fields.numServiceFlag">{{projectStatusDetail.numService}} </td>
+                            <td *ngIf="fields.numVechiclesFlag">{{projectStatusDetail.numVechicles}} </td>
+                            <td *ngIf="fields.locationFlag">{{projectStatusDetail.location}} </td>
+                            <td *ngIf="fields.resourceFlag"> {{projectStatusDetail.resource}}  </td>
+                            <td *ngIf="fields.activityFlag"> {{projectStatusDetail.activity}}  </td>
+                            <td *ngIf="fields.memberFlag"> {{projectStatusDetail.Memeber}}  </td>
+                            <td *ngIf="fields.developmentFlag"> {{projectStatusDetail.development}}  </td>
+                              
+                          </tr>
                          </ng-container>
                          </ng-container>
                         </table>

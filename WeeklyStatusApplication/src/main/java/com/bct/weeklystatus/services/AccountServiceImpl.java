@@ -63,6 +63,11 @@ public class AccountServiceImpl implements AccountService {
 		// TODO Auto-generated method stub
 		return accountRepository.findProjectDetail(accountID,projectID,weekDuration);
 	}
+	@Override
+	public List<ProjectDetail> getProjectDetails(String accountID,Long projectID) {
+		// TODO Auto-generated method stub
+		return accountRepository.findProjectDetail(accountID,projectID);
+	}
 	public List<ProjectDetail> getAllProjectDetails() {
 		// TODO Auto-generated method stub
 		return accountRepository.findAllProjectDetails();

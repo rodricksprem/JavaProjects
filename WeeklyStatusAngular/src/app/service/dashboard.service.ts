@@ -25,7 +25,7 @@ export class DashboardService {
   getWeeks()
   {
     console.log("  getWeeks() "+this.baseurl+'/chartData/getWeeks');
-    return this._http.get<String[]>(this.baseurl+'/chartData/getWeeks', this.optionsnew).catch(this.errorHandler)
+    return this._http.get(this.baseurl+'/chartData/getWeeks', this.optionsnew).catch(this.errorHandler)
   }
 
   getChartDataTesla()

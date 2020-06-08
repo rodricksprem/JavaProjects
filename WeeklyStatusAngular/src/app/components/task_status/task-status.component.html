@@ -134,12 +134,12 @@
                                         <textarea *ngIf="field.multiline" [formControlName]="field.name" [id]="field.name"
                                           rows="3" class="form-control" [placeholder]="field.placeholder"></textarea>
                                       </div>
-                                      <div class="col-sm-11" *ngSwitchCase="'date'" class="datepick"  style="padding-left: 0px !important; padding-right: 0px !important; padding-top: 10px">
-
-                                        <input  class="form-control dateInputPos unstyled" 
-                                        [attr.type]="field.type"
-                                          [formControlName]="field.name" [id]="field.name" [name]="field.name"
-                                          [placeholder]="field.placeholder" [value]="field.value">
+                                      <div class="col-sm-11" *ngSwitchCase="'date'" class="datepick"   style="padding-left: 0px !important; padding-right: 0px !important; padding-top: 10px">
+                                        
+                                        <input  [owlDateTime]="dt1" class="form-control" [formControlName]="field.name" [id]="field.name" 
+                                        [name]="field.name" [owlDateTimeTrigger]="dt1" [placeholder]="field.placeholder" [value]="field.value"> 
+                                        <owl-date-time #dt1></owl-date-time>
+                                         
                                       </div>
                                     
                                     </div>

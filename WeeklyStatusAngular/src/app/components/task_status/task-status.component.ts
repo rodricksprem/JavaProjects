@@ -14,13 +14,15 @@ import { Fields } from 'src/app/dao/fields';
 import { WeekStatus } from 'src/app/dao/WeekStatus';
 import { templateSourceUrl } from '@angular/compiler';
 import { first } from 'rxjs/operators';
-
+import {AbstractControl} from '@angular/forms';
+import { CustomValidator } from './CustomValidator';
 declare var $: any;
 @Component({
   selector: 'app-new-interface',
   templateUrl: './task-status.component.html',
   styleUrls: ['./task-status.component.css']
 })
+
 export class NewInterfaceComponent implements OnInit {
   dropdownSettings = {};
   selectedFile: File;
@@ -99,8 +101,8 @@ export class NewInterfaceComponent implements OnInit {
 
     this._applicationService.getAllProjectDetails().subscribe((projectDetailList:ProjectDetail[]) => {
       //console.log(application);
-      
-      this.projectDetailList = projectDetailList;
+
+         this.projectDetailList = projectDetailList;
       console.log("getAllProjectDetails ", this.projectDetailList);
       for (let projectDetail of this.projectDetailList) {
         console.log(" projectDetail name ", projectDetail.projectName);
@@ -134,8 +136,9 @@ export class NewInterfaceComponent implements OnInit {
     var count =0;
     arrayControl.controls.forEach(item => {
     if(count==index){
-      if(item.value.id!=null){
-      this.projectStatusIdsList.push(item.value.id)
+      if(item.get("id")!=null && item.get("id").value!=null){
+        console.log("collecting items to delete it ")
+      this.projectStatusIdsList.push((item.get("id").value))
     }
 
     }
@@ -205,6 +208,50 @@ export class NewInterfaceComponent implements OnInit {
           
         });
       }
+      
+      if (fieldres.accountFlag) {
+        value = isNew ? '' :  this.taskDetail.projectStatusDetails[index].account;
+        this.fields[index].push(
+          {
+            type: 'text',
+            name: 'account',
+            label: 'account',
+            value: value,
+            disabled: false,
+            placeholder: 'please enter Account Name',
+            required: true
+          });
+
+      }
+      if (fieldres.subProjectFlag) {
+        value = isNew ? '' :  this.taskDetail.projectStatusDetails[index].subProject;
+        this.fields[index].push(
+          {
+            type: 'text',
+            name: 'subProject',
+            label: 'subProject',
+            value: value,
+            disabled: false,
+            placeholder: 'please enter Project Name',
+            required: true
+          });
+
+      }
+      if (fieldres.subProjectTypeFlag) {
+        value = isNew ? '' :  this.taskDetail.projectStatusDetails[index].subProjectType;
+        this.fields[index].push(
+          {
+            type: 'text',
+            name: 'subProjectType',
+            label: 'subProjectType',
+            value: value,
+            disabled: false,
+            placeholder: 'please enter Project Type',
+            required: true
+          });
+
+      }
+    
       if (fieldres.appAvailablityFlag) {
         value = isNew ? '' :  this.taskDetail.projectStatusDetails[index].appAvailablity
         this.fields[index].push(
@@ -213,12 +260,28 @@ export class NewInterfaceComponent implements OnInit {
             name: 'appAvailablity',
             label: 'appAvailablity',
             value: value,
-            placeholder: 'please enter AppAvailablity %',
+            disabled: false,
+            placeholder: 'please enter Uptimeavailability %',
 
             required: true,
           });
 
       }
+      if (fieldres.activityFlag) {
+        value = isNew ? '' :  this.taskDetail.projectStatusDetails[index].activity;
+        this.fields[index].push(
+          {
+            type: 'text',
+            name: 'activity',
+            label: 'activity',
+            value: value,
+            disabled: false,
+            placeholder: 'please enter Activities',
+            required: true
+          });
+
+      }
+
       if (fieldres.approvedByFlag) {
         console.log(fieldres.approvedByFlag , index);
         value = isNew ? '' :  this.taskDetail.projectStatusDetails[index].approvedBy;
@@ -228,6 +291,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'approvedBy',
             label: 'approvedBy',
             value: value,
+            disabled: false,
             placeholder: 'please enter Approver Name',
 
             required: true,
@@ -243,6 +307,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'availMemSpace',
             label: 'availMemSpace',
             value: value,
+            disabled: false,
             placeholder: 'please enter Available Mem Space in %',
 
             required: true,
@@ -257,6 +322,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'availStorageSpace',
             label: 'availStorageSpace',
             value: value,
+            disabled: false,
             placeholder: 'please enter Available Storage Space in %',
 
             required: true,
@@ -272,6 +338,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'cpuLoad',
             label: 'cpuLoad',
             value: value,
+            disabled: false,
             placeholder: 'please enter CPU Load',
 
             required: true,
@@ -287,6 +354,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'customerName',
             label: 'customerName',
             value: value,
+            disabled: false,
             placeholder: 'please enter CustomerName',
 
             required: true,
@@ -303,12 +371,26 @@ export class NewInterfaceComponent implements OnInit {
             name: 'dbAvailablity',
             label: 'DB Availablity',
             value: value,
+            disabled: false,
             placeholder: 'please Enter DB Availablity %',
             required: true,
           });
 
       }
+      if (fieldres.developmentFlag) {
+        value = isNew ? '' :  this.taskDetail.projectStatusDetails[index].development;
+        this.fields[index].push(
+          {
+            type: 'text',
+            name: 'development',
+            label: 'Development',
+            value: value,
+            disabled: false,
+            placeholder: 'please Enter Development',
+            required: true,
+          });
 
+      }
 
       if (fieldres.descriptionFlag) {
         value = isNew ? '' :  this.taskDetail.projectStatusDetails[index].description;
@@ -318,6 +400,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'description',
             label: 'Description',
             value: value,
+            disabled: false,
             placeholder: 'please Enter Description',
             required: true,
           });
@@ -333,6 +416,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'developmentCompletion',
             label: 'Development Completion',
             value: value,
+            disabled: false,
             placeholder: 'please Enter Development completion',
             required: true,
           });
@@ -348,6 +432,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'issueNumber',
             label: 'Issue Number',
             value: value,
+            disabled: false,
             placeholder: 'please Enter IssueNumber',
             required: true,
           });
@@ -362,6 +447,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'l1IssuesOpened',
             label: 'l1IssuesOpened',
             value: value,
+            disabled: false,
             placeholder: 'please Enter L1IssuesOpened',
             required: true,
           });
@@ -374,8 +460,9 @@ export class NewInterfaceComponent implements OnInit {
           {
             type: 'text',
             name: 'l1IssuesClosed',
-            label: 'L1IssuesClosed',
+            label: 'l1IssuesClosed',
             value: value,
+            disabled: false,
             placeholder: 'please Enter L1IssuesClosed',
             required: true,
           });
@@ -390,20 +477,22 @@ export class NewInterfaceComponent implements OnInit {
             type: 'text',
             name: 'l2IssuesOpened',
             label: 'l2IssuesOpened',
-            value: value,
+              value: value,
+              disabled: false,
             placeholder: 'please Enter L2IssuesOpened',
             required: true,
           });
 
       }
       if (fieldres.l2IssuesClosedFlag) {
-        value = isNew ? '' :  this.taskDetail.projectStatusDetails[index].l2IssuesOpened;
+        value = isNew ? '' :  this.taskDetail.projectStatusDetails[index].l2IssuesClosed;
         this.fields[index].push(
           {
             type: 'text',
-            name: 'l2IssuesOpened',
-            label: 'L2IssuesClosed',
+            name: 'l2IssuesClosed',
+            label: 'l2IssuesClosed',
             value: value,
+            disabled: false,
             placeholder: 'please Enter L2IssuesClosed',
             required: true,
           });
@@ -418,6 +507,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'location',
             label: 'location',
             value: value,
+            disabled: false,
             placeholder: 'please Enter location',
             required: true,
           });
@@ -431,7 +521,9 @@ export class NewInterfaceComponent implements OnInit {
             name: 'module',
             label: 'module',
             placeholder: 'please enter module name',
-            value: ''
+            value: value,
+            disabled: false,
+ 
           });
 
       }
@@ -444,7 +536,8 @@ export class NewInterfaceComponent implements OnInit {
             name: 'numBuildSprintWorkd',
             label: 'numBuildSprintWorkd',
             placeholder: 'please enter Num of Sprint Worked',
-            value: ''
+            value: value,
+            disabled: false
           });
 
       }
@@ -459,7 +552,8 @@ export class NewInterfaceComponent implements OnInit {
             name: 'numberBuildSprintCompleted',
             label: 'numberBuildSprintCompleted',
             placeholder: 'please enter Num of Sprint Completed',
-            value: ''
+            value: value,
+            disabled: false
           });
 
       }
@@ -472,7 +566,8 @@ export class NewInterfaceComponent implements OnInit {
             name: 'numClients',
             label: 'numClients',
             placeholder: 'please enter Num of Clients',
-            value: ''
+            value: value,
+            disabled: false
           });
 
       }
@@ -486,7 +581,8 @@ export class NewInterfaceComponent implements OnInit {
             name: 'numOfDBs',
             label: 'numOfDB',
             placeholder: 'please enter No. of DBs',
-            value: ''
+            value: value,
+            disabled: false
           });
 
       }
@@ -500,7 +596,8 @@ export class NewInterfaceComponent implements OnInit {
             name: 'numOfServers',
             label: 'numOfServers',
             placeholder: 'please enter No. of Servers',
-            value: ''
+            value: value,
+            disabled: false
           });
 
       }
@@ -514,7 +611,8 @@ export class NewInterfaceComponent implements OnInit {
             name: 'numService',
             label: 'numService',
             placeholder: 'please enter No. of Services',
-            value: ''
+            value: value,
+            disabled: false
           });
 
       }
@@ -528,7 +626,8 @@ export class NewInterfaceComponent implements OnInit {
             name: 'numVechicles',
             label: 'numVechicles',
             placeholder: 'please enter No. of Vechicles',
-            value: ''
+            value: value,
+            disabled: false
           });
 
       }
@@ -542,6 +641,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'remarks',
             label: 'remarks',
             value: value,
+            disabled: false,
             placeholder: 'please enter remarks'
           });
 
@@ -555,6 +655,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'requestedBy',
             label: 'requestedBy',
             value: value,
+            disabled: false,
             placeholder: 'please enter Requestor Name'
           });
 
@@ -567,6 +668,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'resolution',
             label: 'resolution',
             value: value,
+            disabled: false,
             placeholder: 'please enter resolution'
           });
 
@@ -576,11 +678,26 @@ export class NewInterfaceComponent implements OnInit {
         value = isNew ? '' :  this.taskDetail.projectStatusDetails[index].resource;
         this.fields[index].push(
           {
-            type: 'textarea',
+            type: 'text',
             name: 'resource',
             label: 'resource',
             value: value,
+            disabled: false,
             placeholder: 'please enter resourcenames'
+          });
+
+      }
+
+      if (fieldres.memberFlag) {
+        value = isNew ? '' :  this.taskDetail.projectStatusDetails[index].member;
+        this.fields[index].push(
+          {
+            type: 'text',
+            name: 'member',
+            label: 'member',
+            value: value,
+            disabled: false,
+            placeholder: 'please enter memeber details'
           });
 
       }
@@ -593,6 +710,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'serverAvailablity',
             label: 'serverAvailablity',
             value: value,
+            disabled: false,
             placeholder: 'please enter serverAvailablity'
           });
 
@@ -607,6 +725,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'serverName',
             label: 'serverName',
             value: value,
+            disabled: false,
             placeholder: 'please enter server name'
           });
 
@@ -621,6 +740,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'status',
             label: 'status',
             value: value,
+            disabled: false,
             placeholder: 'please enter current status',
             required: true
           });
@@ -634,6 +754,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'dateSelection',
             label: 'Date seletion',
             value: value,
+            disabled: false,
             placeholder: 'please select Date',
             required: true,
           });
@@ -650,6 +771,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'targetDate',
             label: 'targetDate',
             value: value,
+            disabled: false,
             placeholder: 'please enter Date Of Completion',
             required: true
           });
@@ -664,6 +786,7 @@ export class NewInterfaceComponent implements OnInit {
             name: 'taskType',
             label: 'taskType',
             value: value,
+            disabled: false,
             placeholder: 'please enter current TaskType',
             required: true
           });
@@ -672,13 +795,14 @@ export class NewInterfaceComponent implements OnInit {
 
 
       if (fieldres.testsPerDayFlag) {
-        value = isNew ? '' :  this.taskDetail.projectStatusDetails[index].approvedBy;
+        value = isNew ? '' :  this.taskDetail.projectStatusDetails[index].testsPerDay;
         this.fields[index].push(
           {
             type: 'text',
             name: 'testsPerDay',
             label: 'testsPerDay',
             value: value,
+            disabled: false,
             placeholder: 'please enter Tests Per day count',
             required: true
           });
@@ -687,25 +811,34 @@ export class NewInterfaceComponent implements OnInit {
 
 
       if (fieldres.virtualFarmsFlag) {
-        value = isNew ? '' :  this.taskDetail.projectStatusDetails[index].approvedBy;
+        value = isNew ? '' :  this.taskDetail.projectStatusDetails[index].virtualFarms;
         this.fields[index].push(
           {
             type: 'text',
             name: 'virtualFarms',
             label: 'virtualFarms',
             value: value,
+            disabled: false,
             placeholder: 'please enter virtualFarms',
             required: true
           });
 
       }
 
+   
+      
       let fieldsCtrls = []
       for (let f of this.fields[index]) {
         if (f.type != 'checkbox') {
           if(f.value!=null){
-            fieldsCtrls[f.name] = [f.value]
-            console.log("setvalue... ");
+            //first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),
+            if(f.type=='text'){
+          fieldsCtrls[f.name] = new FormControl({value: f.value,disabled: f.disabled}, [Validators.required,Validators.minLength(1)]);
+          console.log("setvalue for text... ");
+            }else if(f.type=='date'){
+              fieldsCtrls[f.name] = new FormControl({value: f.value,disabled: f.disabled}, [Validators.required,CustomValidator.dateVaidator]);
+              
+            }
             }else{
               fieldsCtrls[f.name] = ['']
             }
@@ -741,6 +874,11 @@ export class NewInterfaceComponent implements OnInit {
 
     this.fields = [];
     this.weeks = [];
+    this.fieldsCtrls=[];
+    this.statusSystemForm = this._fb.group(this.fieldsCtrls);
+
+    this.statusSystemFormArray = this._fb.group({statusRow: this._fb.array([this.statusSystemForm]) });
+
     this.selectedProject = data.originalObject;
     this.projectId = this.selectedProject.projectId;
 
@@ -771,6 +909,11 @@ export class NewInterfaceComponent implements OnInit {
     console.log("onWeekChange", data);
 
     this.fields = [];
+    this.fieldsCtrls=[];
+    this.statusSystemForm = this._fb.group(this.fieldsCtrls);
+
+    this.statusSystemFormArray = this._fb.group({statusRow: this._fb.array([this.statusSystemForm]) });
+
 
     this.selectedWeek = data;
     console.log("projectId:" + this.projectId + " - " + this.selectedWeek);
@@ -918,12 +1061,11 @@ export class NewInterfaceComponent implements OnInit {
     console.log(this.selectedProject.projectId, this.taskDetail.taskId, this.selectedProject.weekDuration);
       
     for (let item of arrayControl.controls) {
-      
-     console.log("inside saveStatus ");
-     if(item.value.id!=null && item.value.id != ''){
-      console.log(" Status Id ",item.value.id);
+     console.log("inside saveStatus ",item);
+     if(item.get("id")!=null && item.get("id").value!=null && item.get("id").value != ''){
+      console.log(" Status Id ",item.get("id").value);
       this.projectStatusDetail = this.taskDetail.projectStatusDetails. find(function (pd: ProjectStatusDetailNew) {
-        return pd.id == item.value.id;
+        return pd.id == item.get("id").value;
       });
         
      }
@@ -1047,7 +1189,7 @@ export class NewInterfaceComponent implements OnInit {
         this.projectStatusDetail.dbAvailablity = item.value.dbAvailablity;
       }
       if (item.value.appAvailablity != null) {
-        console.log('appAvailablity ',item.value.appAvailablity);
+        console.log('Up timeavailability ',item.value.appAvailablity);
         this.projectStatusDetail.appAvailablity = item.value.appAvailablity;
       }
       if (item.value.numClients != null) {
@@ -1079,6 +1221,34 @@ export class NewInterfaceComponent implements OnInit {
       if (item.value.approvedBy != null && item.value.approvedBy != '') {
         console.log('approvedBy ',item.value.approvedBy);
         this.projectStatusDetail.approvedBy = item.value.approvedBy;
+      }
+      if (item.value.taskType != null && item.value.taskType != '') {
+        console.log('development ',item.value.taskType);
+        this.projectStatusDetail.taskType = item.value.taskType;
+      }
+      if (item.value.activity != null && item.value.activity != '') {
+        console.log('activity ',item.value.activity);
+        this.projectStatusDetail.activity = item.value.activity;
+      }
+      if (item.value.account != null && item.value.account != '') {
+        console.log('account ',item.value.account);
+        this.projectStatusDetail.account = item.value.account;
+      }
+      if (item.value.member != null && item.value.member != '') {
+        console.log('member ',item.value.member);
+        this.projectStatusDetail.member = item.value.member;
+      }
+      if (item.value.development != null && item.value.development != '') {
+        console.log('development ',item.value.development);
+        this.projectStatusDetail.development = item.value.development;
+      }
+      if (item.value.subProject != null && item.value.subProject != '') {
+        console.log('subproject ',item.value.subProject);
+        this.projectStatusDetail.subProject = item.value.subProject;
+      }
+      if (item.value.subProjectType != null && item.value.subProjectType != '') {
+        console.log('subprojecttype ',item.value.subProjectType);
+        this.projectStatusDetail.subProjectType = item.value.subProjectType;
       }
       console.log(this.taskDetail);
       if (this.taskDetail.projectStatusDetails != null) {
@@ -1150,6 +1320,16 @@ export class NewInterfaceComponent implements OnInit {
     var newWeek:WeekStatus = new WeekStatus();
     newWeek.weekduration=weekDuration;
     newWeek.projectStatus=0;
+    var isPresent=false;
+    this.selectedProject.weekDuration.forEach((weekitem) =>{
+    
+      
+        if(weekitem.weekduration == newWeek.weekduration){
+          
+          isPresent=true;
+        }
+    });
+    if(!isPresent){
     this.selectedProject.weekDuration.push(newWeek);
     
     this._businessUnitService.updateProjectDetail(this.selectedProject).subscribe((flag) => {
@@ -1164,19 +1344,15 @@ export class NewInterfaceComponent implements OnInit {
       } else {
         document.getElementById("errorStatus").innerHTML = "Error while adding WeeK.";
       }
-      /* this._businessUnitService.getTasks(this.bioLOVsData.type).subscribe((entityListValues)=>
-    {
-  //    console.log(entityListValues);
-      this.task = entityListValues;
-      }),(error)=>{
-      console.log(error);
-    }*/
-
     }),
       (error) => {
         console.log(error);
       }
-
+    }else{
+      document.getElementById("successStatus").innerHTML = "";
+      document.getElementById("successStatus").innerHTML = "Week is already present";
+   
+    }
       
     $('#addWeek').click();
   }

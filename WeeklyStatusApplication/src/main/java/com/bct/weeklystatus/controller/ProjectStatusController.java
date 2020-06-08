@@ -90,7 +90,7 @@ public class ProjectStatusController {
     @GetMapping("/statusdetail/{projectID}")
 	public List<TaskDetail> getProjectDetails(@PathVariable Long projectID)
 	{
-    	System.out.println("getProjectDetails");
+    	System.out.println("getProjectDetails for projectId");
     	
     	
     	List<TaskDetail> taskDetailList= taskDetailService.findAllTasks(projectID);
@@ -108,6 +108,7 @@ public class ProjectStatusController {
    	{
        	System.out.println("getProjectDetails ...");
     	List<ProjectDetail> projectDetailsList = projectDetailService.getAllProjectDetails();
+    	System.out.println("getProjectDetails ..."+projectDetailsList.size());
     	return projectDetailsList;
   	   	      
        	}

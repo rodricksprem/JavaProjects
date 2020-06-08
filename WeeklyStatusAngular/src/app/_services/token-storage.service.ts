@@ -12,7 +12,9 @@ const AUTHORITIES_KEY = 'AuthAuthorities';
 export class TokenStorageService {
   private roles: Array<string> = [];
  private token:string;
-  constructor() { console.log(" TokenStorageService ") }
+  constructor() { 
+    //console.log(" TokenStorageService ") 
+  }
  
  
   signOut() {
@@ -21,7 +23,7 @@ export class TokenStorageService {
   }
  
   public saveToken(token: string) {
-    console.log("saveToken ",token);
+ //   console.log("saveToken ",token);
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.setItem(TOKEN_KEY, token);
 
@@ -29,7 +31,7 @@ export class TokenStorageService {
  
   public getToken(): string {
    
-    console.log("getToken ",window.sessionStorage.getItem(TOKEN_KEY));
+  //  console.log("getToken ",window.sessionStorage.getItem(TOKEN_KEY));
 
     
     return window.sessionStorage.getItem(TOKEN_KEY);
@@ -41,7 +43,7 @@ export class TokenStorageService {
   }
  
   public getUsername(): string {
-    console.log("getUserName ", sessionStorage.getItem(USERNAME_KEY));
+    //console.log("getUserName ", sessionStorage.getItem(USERNAME_KEY));
     return sessionStorage.getItem(USERNAME_KEY);
   }
  

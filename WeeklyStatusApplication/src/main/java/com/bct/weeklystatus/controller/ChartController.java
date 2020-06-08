@@ -4,11 +4,13 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.jasper.tagplugins.jstl.core.ForEach;
@@ -104,10 +106,12 @@ public class ChartController {
         mapfTicketsByWeekly.forEach((date,t)->{
         	ticketDataListNew.add(t);
         });
-        System.out.println("getChartDataTesla "+ticketDataListNew.size());
-        ticketDataListNew.stream().forEach(t->System.out.println(t.toString()));
+         
+        List<TicketData> ticketDataListSorted =ticketDataListNew.stream().sorted( Comparator.comparing(p -> p.getTicketCreatedDate())).collect(Collectors.toList());
+        System.out.println("getChartDataTesla "+ticketDataListSorted.size());
+        ticketDataListSorted.stream().forEach(t->System.out.println(t.toString()));
         
-        return ticketDataListNew;
+        return ticketDataListSorted;
 		   	}
 
     @PostMapping("/chartData/meeza")
@@ -153,10 +157,11 @@ public class ChartController {
           mapfTicketsByWeekly.forEach((date,t)->{
           	ticketDataListNew.add(t);
           });
-          System.out.println("getChartDataTesla "+ticketDataListNew.size());
-          ticketDataListNew.stream().forEach(t->System.out.println(t.toString()));
+          List<TicketData> ticketDataListSorted =ticketDataListNew.stream().sorted( Comparator.comparing(p -> p.getTicketCreatedDate())).collect(Collectors.toList());
+          System.out.println("getChartDataTesla "+ticketDataListSorted.size());
+          ticketDataListSorted.stream().forEach(t->System.out.println(t.toString()));
           
-          return ticketDataListNew;
+          return ticketDataListSorted;
   		   	}
 
     

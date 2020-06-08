@@ -10,7 +10,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     constructor(private authenticationService: AuthenticationService,private tokenStorageService: TokenStorageService) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log("Inside ErrorInterceptor ...");
+      //  console.log("Inside ErrorInterceptor ...");
         return next.handle(request).pipe(catchError(err => {
 
             if (err.status === 401) {

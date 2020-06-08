@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,9 +19,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -38,6 +39,12 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(
+        value = {"createdBy", "lastUpdatedBy"},
+        allowGetters = true
+)
 
 @NamedQuery(name="find_all_status",query = "select ps from ProjectStatusDetail ps")
 public class ProjectStatusDetail {
@@ -90,11 +97,13 @@ public class ProjectStatusDetail {
 	@UpdateTimestamp
 	private LocalDateTime updateDate;
 	@CreatedBy
-    @Column(updatable = false)
+	 @Column(updatable = false)
+  // @Column(name="created_by",updatable = false)
 	private String createdBy;
 	@LastModifiedBy
+	// @Column(name="last_updated_by",updatable = false)
 	private String lastUpdatedBy;
-	@Column(name="SERVER")
+		@Column(name="SERVER")
 	private String serverName;
 	@Column(name="STATUS")
 	private String status;
@@ -153,7 +162,21 @@ public class ProjectStatusDetail {
 	
 	@Column(name="resource")
 	private String resource;
+	@Column(name="taskType")
+	private String taskType;
 	
+	@Column(name="activity")
+	private String activity;
+	@Column(name="account")
+	private String account;
+	@Column(name="subProject")
+	private String subProject;
+	@Column(name="subProjectType")
+	private String subProjectType;
+	@Column(name="member")
+	private String member;
+	@Column(name="development")
+	private String development;
 	
 	
 	

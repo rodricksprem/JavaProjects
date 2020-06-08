@@ -341,7 +341,7 @@ onAccChange(accountName) {
     //debugger;
     this.spinnerService.show();
     console.log("buSearch ",data)
-      let accountId= (<HTMLInputElement>document.getElementById('accountID')).value;
+    let accountId= (<HTMLInputElement>document.getElementById('accountID')).value;
     let projectId = (<HTMLInputElement>document.getElementById('projectId')).value;
     let weekDuration = (<HTMLInputElement>document.getElementById('weekDuration')).value;
 

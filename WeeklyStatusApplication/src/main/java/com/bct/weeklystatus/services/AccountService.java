@@ -19,5 +19,6 @@ public interface AccountService {
 
 	public ProjectDetail getProjectDetails(String accountID, Long projectID, String weekDuration);
 
-	
+	public List<ProjectDetail> getProjectDetails(String accountID, Long projectID);
+
 }

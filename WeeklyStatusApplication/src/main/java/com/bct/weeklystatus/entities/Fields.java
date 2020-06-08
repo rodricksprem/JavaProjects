@@ -102,6 +102,17 @@ public class Fields {
 	private Boolean resourceFlag=false;
 	@Column(name="taskTypeFlag")
 	private Boolean taskTypeFlag=false;
-	
+	@Column(name="activityFlag")
+	private Boolean activityFlag=false;
+	@Column(name="accountFlag")
+	private Boolean accountFlag=false;
+	@Column(name="subProjectFlag")
+	private Boolean subProjectFlag=false;
+	@Column(name="subProjectTypeFlag")
+	private Boolean subProjectTypeFlag=false;
+	@Column(name="memberFlag")
+	private Boolean memberFlag=false;
+	@Column(name="developmentFlag")
+	private Boolean developmentFlag=false;
 												
 }

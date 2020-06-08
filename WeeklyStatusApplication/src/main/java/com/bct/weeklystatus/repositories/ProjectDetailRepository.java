@@ -66,6 +66,7 @@ public class ProjectDetailRepository
 	
 	
 	public List<ProjectDetail> findAllProjectDetails(){
+	
 	TypedQuery<ProjectDetail>	 typedQuery=entityManager.createNamedQuery("find_all_projects",ProjectDetail.class);
 	return typedQuery.getResultList();
 	}

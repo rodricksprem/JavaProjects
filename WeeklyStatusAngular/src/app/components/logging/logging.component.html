@@ -11,6 +11,7 @@
         <div class="loggingSearchingBox">
           <div class="fieldBox">
             <select class="form-control" id="accountID" name="accountID" (change)="onAccChange($event.target.value)"   [value]='accountID' ngModel>
+              <option value="" disabled selected>Select Account</option>
               <option *ngFor="let account of accountList" value={{account.accountID}}>{{account.accountName}}</option>
             </select>
           </div>

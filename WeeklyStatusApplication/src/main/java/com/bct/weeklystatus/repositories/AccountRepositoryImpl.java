@@ -3,6 +3,7 @@ package com.bct.weeklystatus.repositories;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -104,7 +105,24 @@ public class AccountRepositoryImpl implements AccountRepostiry
 		}
 		
 	}
-	
+	public List<ProjectDetail> findProjectDetail(String accountID,Long projectId){
+		Optional<Account> optionqlaccount = findById(accountID);
+		
+		if(optionqlaccount.isPresent()) {
+			Account account = optionqlaccount.get();
+			
+		
+		logger.info("findAllProjectDetails "+projectId);
+		
+		 List<ProjectDetail> projectDetails = account.getProjectDetails().stream().filter(pd->(pd.getProjectId().longValue()==projectId.longValue())).collect(Collectors.toList());
+		 projectDetails.forEach(projectDetail->projectDetail.setAccount(account));
+		 
+		 	 return projectDetails;
+				}else {
+			return null;
+		}
+		
+	}
 	public List<ProjectDetail> findAllProjectDetails(){
 	
 		logger.info("findAllProjectDetails ");

@@ -3,6 +3,7 @@ package com.bct.weeklystatus.controller;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -27,6 +28,7 @@ import com.bct.weeklystatus.entities.ProjectDetail;
 import com.bct.weeklystatus.entities.ProjectStatusDetail;
 import com.bct.weeklystatus.entities.TaskDetail;
 import com.bct.weeklystatus.entities.WeekStatus;
+import com.bct.weeklystatus.model.TicketData;
 import com.bct.weeklystatus.services.AccountService;
 import com.bct.weeklystatus.services.FieldService;
 import com.bct.weeklystatus.services.ProjectDetailService;
@@ -173,26 +175,57 @@ public class AccountController {
 	public List<com.bct.weeklystatus.model.Account> getProjectDetails(@RequestBody ProjectDetail projectDetail)
 	{
     	System.out.println("getProjectDetailsWeekly "+projectDetail.toString());
-    	WeekStatus weekDurationInstance = projectDetail.getWeekDuration().get(0);
-    	ProjectDetail foundProjectDetail= accountService.getProjectDetails(projectDetail.getAccount().getAccountID(),projectDetail.getProjectId(),weekDurationInstance.getWeekduration());
-    	WeekStatus weekStatus = foundProjectDetail.getWeekDuration().stream().filter(wd -> wd.getWeekduration().equalsIgnoreCase(weekDurationInstance.getWeekduration())).findFirst().get();
     	List<com.bct.weeklystatus.model.Account> accounts  = new ArrayList<com.bct.weeklystatus.model.Account>();
-    	com.bct.weeklystatus.model.Account accounttemp = new com.bct.weeklystatus.model.Account();
-    	
-    	accounttemp.setAccountID(foundProjectDetail.getAccount().getAccountID());
- 	   accounttemp.setAccountOwner(foundProjectDetail.getAccount().getAccountOwner());
- 	   accounttemp.setAccountStatus(foundProjectDetail.getAccount().getAccountStatus());
- 	   accounttemp.setProjectID(foundProjectDetail.getProjectId());
- 	   accounttemp.setProjectName(foundProjectDetail.getProjectName());
- 	   accounttemp.setProjectStatus(weekStatus.getProjectStatus());
- 	   accounttemp.setProjectType(foundProjectDetail.getProjectType());
- 	   accounttemp.setWeekDuration(weekStatus.getWeekduration());
- 	   accounttemp.setRemarks(foundProjectDetail.getAccount().getRemarks());
- 	   accounttemp.setAccountName(foundProjectDetail.getAccount().getAccountName());
- 	   accounts.add(accounttemp);
-    	
-    	
-    	return accounts;
+	    
+    	if(projectDetail.getWeekDuration()!=null) {
+	    	WeekStatus weekDurationInstance = projectDetail.getWeekDuration().get(0);
+	    	ProjectDetail foundProjectDetail= accountService.getProjectDetails(projectDetail.getAccount().getAccountID(),projectDetail.getProjectId(),weekDurationInstance.getWeekduration());
+	    	WeekStatus weekStatus = foundProjectDetail.getWeekDuration().stream().filter(wd -> wd.getWeekduration().equalsIgnoreCase(weekDurationInstance.getWeekduration())).findFirst().get();
+	    	com.bct.weeklystatus.model.Account accounttemp = new com.bct.weeklystatus.model.Account();
+	    	accounttemp.setAccountID(foundProjectDetail.getAccount().getAccountID());
+	 	   accounttemp.setAccountOwner(foundProjectDetail.getAccount().getAccountOwner());
+	 	   accounttemp.setAccountStatus(foundProjectDetail.getAccount().getAccountStatus());
+	 	   accounttemp.setProjectID(foundProjectDetail.getProjectId());
+	 	   accounttemp.setProjectName(foundProjectDetail.getProjectName());
+	 	   accounttemp.setProjectStatus(weekStatus.getProjectStatus());
+	 	   accounttemp.setProjectType(foundProjectDetail.getProjectType());
+	 	   accounttemp.setWeekDuration(weekStatus.getWeekduration());
+	 	   accounttemp.setRemarks(foundProjectDetail.getAccount().getRemarks());
+	 	   accounttemp.setAccountName(foundProjectDetail.getAccount().getAccountName());
+	 	   accounts.add(accounttemp);
+	    }else {
+	    	
+	    	List<ProjectDetail> foundProjectDetails= accountService.getProjectDetails(projectDetail.getAccount().getAccountID(),projectDetail.getProjectId());
+	    	foundProjectDetails.forEach(projecttemp -> {
+	    	      projecttemp.getWeekDuration().forEach( week->{
+	    	com.bct.weeklystatus.model.Account accounttemp = new com.bct.weeklystatus.model.Account();
+	    	accounttemp.setAccountID(projecttemp.getAccount().getAccountID());
+	 	   accounttemp.setAccountOwner(projecttemp.getAccount().getAccountOwner());
+	 	   accounttemp.setAccountStatus(projecttemp.getAccount().getAccountStatus());
+	 	   accounttemp.setProjectID(projecttemp.getProjectId());
+	 	   accounttemp.setProjectName(projecttemp.getProjectName());
+	 	   accounttemp.setProjectStatus(week.getProjectStatus());
+	 	   accounttemp.setProjectType(projecttemp.getProjectType());
+	 	   accounttemp.setWeekDuration(week.getWeekduration());
+	 	   accounttemp.setRemarks(projecttemp.getAccount().getRemarks());
+	 	   accounttemp.setAccountName(projecttemp.getAccount().getAccountName());
+	 	   accounts.add(accounttemp);
+	    	      });
+	    	});
+	    		
+    	}
+    	 Comparator<com.bct.weeklystatus.model.Account> dateCompartor = (lhs, rhs) -> {
+    			try {
+    				return getStartDate(lhs.getWeekDuration()).compareTo(getStartDate(rhs.getWeekDuration()));
+    			} catch (ParseException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    				return 0;
+    			}
+    		};
+ 	  List<com.bct.weeklystatus.model.Account> accountSorted =accounts.stream().sorted( dateCompartor).collect(Collectors.toList());
+ 		
+    	return accountSorted;
 
 	}
 

@@ -42,7 +42,12 @@ export class ProjectStatusDetailNew {
     location: string;
     status:string;
     resource:string;
-
+    activity:string;
+    account:string;
+	member:string;
+	development:string;
+    subProject:string;
+	subProjectType:string;
 
     
 
