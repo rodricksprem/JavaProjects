@@ -1,8 +1,15 @@
 package com.bct.weeklystatus.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -17,6 +24,7 @@ import com.bct.weeklystatus.entities.Account;
 import com.bct.weeklystatus.entities.ProjectDetail;
 import com.bct.weeklystatus.entities.ProjectStatusDetail;
 import com.bct.weeklystatus.entities.TaskDetail;
+import com.bct.weeklystatus.entities.WeekStatus;
 import com.bct.weeklystatus.services.AccountService;
 import com.bct.weeklystatus.services.ProjectDetailService;
 import com.bct.weeklystatus.services.ProjectStatusDetailService;
@@ -52,42 +60,7 @@ public class ProjectStatusController {
         return weeks;
 	}
 
-       @PostMapping("/accountDetails")
-	public List<com.bct.weeklystatus.model.Account> getAccountDetails()
-	{
-    	System.out.println("getAccountDetails");
-    	
-    	
-       List<Account> accounts= accountService.findAllAccounts();
-       List<com.bct.weeklystatus.model.Account> accountList = new ArrayList<com.bct.weeklystatus.model.Account>();
-    
-       accounts.forEach(account ->{
-    	   account.getProjectDetails().forEach(projecttemp -> {
-    		   projecttemp.getWeekDuration().forEach( wd -> {
-    		   com.bct.weeklystatus.model.Account accounttemp = new com.bct.weeklystatus.model.Account();
-        	   accounttemp.setAccountID(account.getAccountID());
-        	   accounttemp.setAccountOwner(account.getAccountOwner());
-        	   accounttemp.setAccountStatus(account.getAccountStatus());
-        	   accounttemp.setProjectID(projecttemp.getProjectId());
-        	   accounttemp.setProjectName(projecttemp.getProjectName());
-
-        	   accounttemp.setWeekDuration(wd.getWeekduration());
-        	   accounttemp.setProjectStatus(wd.getProjectStatus());
-        	   accounttemp.setProjectType(projecttemp.getProjectType());
-        	   accounttemp.setRemarks(account.getRemarks());
-        	   System.out.println(account.getAccountName());
-        	   accounttemp.setAccountName(account.getAccountName());
-        	   accountList.add(accounttemp);
-    		   });
-
-    	   });
-    	          });
-       System.out.println("return ...");
-	return accountList;
-		
-	}
-
-    @GetMapping("/statusdetail/{projectID}")
+     @GetMapping("/statusdetail/{projectID}")
 	public List<TaskDetail> getProjectDetails(@PathVariable Long projectID)
 	{
     	System.out.println("getProjectDetails for projectId");
@@ -95,9 +68,9 @@ public class ProjectStatusController {
     	
     	List<TaskDetail> taskDetailList= taskDetailService.findAllTasks(projectID);
     	
+    	List<TaskDetail> taskDetailSortedList = taskDetailList.stream().map(td->sortByDate(td)).collect(Collectors.toList());
     	
-    	
-    	System.out.println("return ..."+taskDetailList.size());
+    	System.out.println("return ..."+taskDetailSortedList.size());
  	return taskDetailList;
 
 	}
@@ -109,11 +82,49 @@ public class ProjectStatusController {
        	System.out.println("getProjectDetails ...");
     	List<ProjectDetail> projectDetailsList = projectDetailService.getAllProjectDetails();
     	System.out.println("getProjectDetails ..."+projectDetailsList.size());
-    	return projectDetailsList;
-  	   	      
-       	}
-   	
-
+    	
+    	Comparator<ProjectDetail> nameComparator = (lhs, rhs) -> lhs.getProjectName().compareTo(rhs.getProjectName());
+         
+    	   Comparator<WeekStatus> dateCompartor = (lhs, rhs) -> {
+    			try {
+    				return getStartDate(lhs.getWeekduration()).compareTo(getStartDate(rhs.getWeekduration()));
+    			} catch (ParseException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    				return 0;
+    			}
+    		};
+    	       
+    	      return  projectDetailsList.stream().sorted(Comparator.nullsLast(nameComparator)).map(pd->{
+    	    	  pd.setWeekDuration(pd.getWeekDuration().stream().sorted(dateCompartor).
+    	    			  collect(Collectors.toList()));
+    	    	  pd.getTaskDetails().stream().map(taskDetail->sortByDate(taskDetail));
+    	    	  return pd;
+    	    	  }).collect(Collectors.toList());
+    	      
+    			
+    		}
+            private TaskDetail sortByDate(TaskDetail taskDetail) {
+            	
+            	Comparator<ProjectStatusDetail> statusdateCompartor = (lhs, rhs) -> {
+        			try {
+        				return lhs.getDateSelection().compareTo(rhs.getDateSelection());
+        			}catch (NullPointerException e) { // when dateselection is null
+        				return 0;
+        			}
+        		};
+            	taskDetail.setProjectStatusDetails(taskDetail.getProjectStatusDetails().stream().
+            			sorted(statusdateCompartor).collect(Collectors.toList()));
+            	
+            	return taskDetail;
+            }
+    	    static Date getStartDate(String weekDuration) throws ParseException {
+    	    String startDateInStr=	weekDuration.split("-")[0];
+    	    DateFormat format = new java.text.SimpleDateFormat("MMM dd,yyyy", Locale.ENGLISH);
+    	    Date date = format.parse(startDateInStr);
+    		return date;
+    	    			
+    	    }
     @GetMapping({"/", "/welcome"})
     public String welcome(Model model) {
         return "welcome";

@@ -53,6 +53,7 @@ export class LoggingComponent implements OnInit {
   public maxDate:Date = new Date();
   limitSelection = false;
   @Output() dashBoardEvent = new EventEmitter<string>();
+  @Output() dashBoard2Event = new EventEmitter<string>();
   accountList:any= [];
   projectList:ProjectDetail[];
   projectNameList: any=[];
@@ -162,16 +163,7 @@ handleLimitSelection() {
     '<span class="ag-overlay-loading-center">Please wait while your rows are loading</span>';
    // if(this._accountService.getAccountId()!=null && this._accountService.getAccountId().trim() != "") {
       console.log("here ...");
-      this._accountService.getAccountDetails().subscribe((accountLog)=>
-      {
-       //debugger;
-      console.log(accountLog);
-       this.rowData = accountLog;
-       
-       this.spinnerService.hide();
-            },()=>this.spinnerService.hide()),(error)=>{
-            console.log(error);
-            }
+    
   //    }
   
   

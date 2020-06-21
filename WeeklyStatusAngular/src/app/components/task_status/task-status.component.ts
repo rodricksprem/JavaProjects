@@ -98,11 +98,11 @@ export class NewInterfaceComponent implements OnInit {
 
     };
 
-
+    this.spinnerService.show();
     this._applicationService.getAllProjectDetails().subscribe((projectDetailList:ProjectDetail[]) => {
       //console.log(application);
 
-         this.projectDetailList = projectDetailList;
+       this.projectDetailList = projectDetailList;
       console.log("getAllProjectDetails ", this.projectDetailList);
       for (let projectDetail of this.projectDetailList) {
         console.log(" projectDetail name ", projectDetail.projectName);
@@ -170,6 +170,8 @@ export class NewInterfaceComponent implements OnInit {
     console.log("selectTaskOPtion", taskId);
 
     this.taskId = taskId;
+    this.showDeleteButton=false;
+    
     this.taskDetail = this.taskDetails.find(function (taskDetail1: TaskDetail) {
       return taskDetail1.taskId == taskId;
     });
@@ -875,6 +877,7 @@ export class NewInterfaceComponent implements OnInit {
     this.fields = [];
     this.weeks = [];
     this.fieldsCtrls=[];
+    this.showDeleteButton=false;
     this.statusSystemForm = this._fb.group(this.fieldsCtrls);
 
     this.statusSystemFormArray = this._fb.group({statusRow: this._fb.array([this.statusSystemForm]) });
@@ -910,18 +913,20 @@ export class NewInterfaceComponent implements OnInit {
 
     this.fields = [];
     this.fieldsCtrls=[];
+    this.showDeleteButton=false;
     this.statusSystemForm = this._fb.group(this.fieldsCtrls);
 
     this.statusSystemFormArray = this._fb.group({statusRow: this._fb.array([this.statusSystemForm]) });
 
 
     this.selectedWeek = data;
+    this.taskDetails=[];
+    $('#taskId').val('');
+    console.log($('#taskId'))
     console.log("projectId:" + this.projectId + " - " + this.selectedWeek);
     if (this.projectId >= 0) {
       // this._applicationService.getAppplicationDetails(this.projectId).subscribe((bioLogApplicationData)=>
       //{
-
-      this.taskDetails = [];
       this.selectedProject.taskDetails.forEach(td => {
         console.log(td.taskCreationDate);
         var weekDuration = this.formWeek(td.taskCreationDate);

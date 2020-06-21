@@ -8,6 +8,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { DashBoardComponent } from './components/dash-board/dash-board.component';
 import { DashBoardContentComponent } from './components/dash-board-content/dash-board-content.component';
+import { DashBoard2ContentComponent } from './components/dash-board2-content/dash-board2-content.component';
+
 import { LoggingComponent } from './components/logging/logging.component';
 import { UserService } from './service/user.service';
 import { LogService } from './service/log.service';
@@ -42,6 +44,7 @@ const appRoutes:Routes=[
    // otherwise redirect to home
   {path:'error', component: ErrorPageComponent},
    {path:'dashboard', component: DashBoardComponent},
+ 
    {path:'logging', component: LoggingComponent},
      {path:'user', component: UserComponent},
    {path:'newInterface', component: NewInterfaceComponent},
@@ -62,6 +65,7 @@ const appRoutes:Routes=[
     SideBarComponent,
     DashBoardComponent,
     DashBoardContentComponent,
+    DashBoard2ContentComponent,
     //NotificationComponent,
     LoggingComponent,
       UserComponent,

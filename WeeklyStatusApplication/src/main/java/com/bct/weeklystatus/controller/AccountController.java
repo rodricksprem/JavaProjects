@@ -141,8 +141,16 @@ public class AccountController {
      	  //    projectDetailTemp.getWeekDuration().forEach(wd->{
      	      projectDetailTemp.setProjectId(projectDetail.getProjectId());
      	      projectDetailTemp.setProjectName(projectDetail.getProjectName());
-     	      
-         	  projectDetailTemp.setWeekDuration(projectDetail.getWeekDuration());
+     	     Comparator<WeekStatus> dateCompartor = (lhs, rhs) -> {
+     			try {
+     				return getStartDate(lhs.getWeekduration()).compareTo(getStartDate(rhs.getWeekduration()));
+     			} catch (ParseException e) {
+     				// TODO Auto-generated catch block
+     				e.printStackTrace();
+     				return 0;
+     			}
+     		};
+         	  projectDetailTemp.setWeekDuration(projectDetail.getWeekDuration().stream().sorted(dateCompartor).collect(Collectors.toList()));
      	      projectDetailsListNew.add(projectDetailTemp);
 
      	    //  });

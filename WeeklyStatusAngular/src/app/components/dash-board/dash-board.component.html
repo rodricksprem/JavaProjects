@@ -4,10 +4,13 @@
 (userEvent)="receiveUser($event)" 
 (logDetailsEvent)="receiveLogDetails($event)" 
 (dashBoardEvent)="receiveDashBoard($event)"
+(dashBoard2Event)="receiveDashBoard2($event)"
 (newInterfaceEvent)="receiveNewInterface($event)"
 (projectStatusEvent)="receiveProjectStatus($event)">
 </app-side-bar>
 <app-dash-board-content *ngIf="dashBoardFlagparent"></app-dash-board-content>
+<app-dash-board2-content *ngIf="dashBoard2Flagparent"></app-dash-board2-content>
+
 <app-logging *ngIf="logFlagparent"></app-logging>
 <!--<app-notification *ngIf="notificationFlagparent"></app-notification>-->
 <app-user *ngIf="userFlagparent"></app-user>

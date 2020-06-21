@@ -1,15 +1,19 @@
 package com.bct.weeklystatus.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -44,21 +48,71 @@ public class ChartController {
 
 
     @GetMapping("/chartData/getWeeks")
-    public HashSet<String> getWeeks()
+    public List<String> getWeeks()
 	{
     	System.out.println("getWeeks");
 
     	HashSet<String> weeks = new HashSet<String>();
-    	
+    
         List<ProjectDetail> projectDetailList= projectDetailService.getAllProjectDetails();
-        projectDetailList.forEach(projectDetail->{
-        	projectDetail.getWeekDuration().stream().forEach(wd->{
+        projectDetailList.stream().forEach(pd->{
+        pd.getWeekDuration().stream().forEach(wd->{
         	 weeks.add(wd.getWeekduration());
         });
         });
+    	System.out.println("weeks ..."+weeks.size());
+        Comparator<String> dateCompartor = (lhs, rhs) -> {
+    		try {
+    			
+    			return getStartDate(lhs).compareTo(getStartDate(rhs));
+    		} catch (ParseException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    			return 0;
+    		}
+    	};
+        return weeks.stream().collect(Collectors.toCollection(HashSet::new)).stream().sorted(dateCompartor).collect(Collectors.toList());
+    	  
+         	
+    }
+       
+
+
+    @GetMapping("/chartData/getWeeks/{projectId}")
+    public List<String> getWeeks(@PathVariable Long projectId)
+	{
+    	System.out.println("getWeeks for "+projectId);
+
+    	HashSet<String> weeks = new HashSet<String>();
+    
+        ProjectDetail projectDetail= projectDetailService.getProjectDetail(projectId);
+       	projectDetail.getWeekDuration().stream().forEach(wd->{
+        	 weeks.add(wd.getWeekduration());
+        });
         System.out.println("weeks ..."+weeks.size());
-        return weeks;
-	}
+        Comparator<String> dateCompartor = (lhs, rhs) -> {
+    		try {
+    			
+    			return getStartDate(lhs).compareTo(getStartDate(rhs));
+    		} catch (ParseException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    			return 0;
+    		}
+    	};
+    	return weeks.stream().collect(Collectors.toCollection(HashSet::new)).stream().sorted(dateCompartor).collect(Collectors.toList());
+    	  
+         	
+    }
+       
+	
+static Date getStartDate(String weekDuration) throws ParseException {
+    String startDateInStr=	weekDuration.split("-")[0];
+    DateFormat format = new java.text.SimpleDateFormat("MMM dd,yyyy", Locale.ENGLISH);
+    Date date = format.parse(startDateInStr);
+	return date;
+    			
+    }
     
 //Angular
     @PostMapping("/chartData/tesla")
@@ -275,7 +329,112 @@ public class ChartController {
 
         return ticketDataListNew;
 		   	}
- 
+    @PostMapping("/chartData/teslanetworkop")
+   	public List<com.bct.weeklystatus.model.TicketData> getChartDataTeslaNetworkOp()
+   	{
+       	System.out.println("getChartDataTeslaNetworkOp");
+
+       	List<Long> projectIDList = new ArrayList<Long>();
+       	projectIDList.add(1600L);
+       	//projectIDList.add(500L);
+           List<ProjectStatusDetail> projectStatusDetailList= projectDetailService.getAllProjectStatusDetails(projectIDList);
+           List<TicketData> ticketDataList = new ArrayList<TicketData>();
+           projectStatusDetailList.forEach(projectStatusDetail->{
+           	TicketData ticketData = new TicketData();
+           	ticketData.setProjectName(projectStatusDetail.getTaskDetil().getProjectDetail().getProjectName());
+           	ticketData.setL1IssuesClosed(projectStatusDetail.getL1IssuesClosed());
+           	ticketData.setL2IssuesClosed(projectStatusDetail.getL2IssuesClosed());
+           	ticketData.setL1IssuesOpened(projectStatusDetail.getL1IssuesOpened());
+           	ticketData.setL2IssuesOpened(projectStatusDetail.getL2IssuesOpened());
+           	LocalDate day = projectStatusDetail.getDateSelection();
+         
+           	while (day.getDayOfWeek() != DayOfWeek.MONDAY)
+           	 {
+           		      day = day.minusDays(1);
+           	 }
+           	
+           	ticketData.setTicketCreatedDate(day);
+           	System.out.println(" before reducing "+ticketData.toString());
+           	ticketDataList.add(ticketData);       
+           	
+           });
+         
+           ticketDataList.stream().forEach(t->System.out.println(t.toString()));
+           Map<Optional<LocalDate>,TicketData> mapfTicketsByWeekly =
+           	    ticketDataList
+           	        .stream()
+           	        .collect(
+           	            Collectors.groupingBy(e->Optional.ofNullable(e.getTicketCreatedDate()),                      
+           	                  Collectors.reducing(
+           	                		  new TicketData(LocalDate.MIN,0,0,0,0,""),
+           	                		  (t1,t2)->
+                   	                    new TicketData(t2.getTicketCreatedDate(),t1.getL1IssuesOpened()+t2.getL1IssuesOpened(),t1.getL1IssuesClosed()+t2.getL1IssuesClosed(),
+                   	                    		t1.getL2IssuesOpened()+t2.getL2IssuesOpened(),t1.getL2IssuesClosed()+t2.getL2IssuesClosed(),t2.getProjectName()))));
+           List<TicketData> ticketDataListNew = new ArrayList<TicketData>();
+           mapfTicketsByWeekly.forEach((date,t)->{
+           	ticketDataListNew.add(t);
+           });
+            
+           List<TicketData> ticketDataListSorted =ticketDataListNew.stream().sorted( Comparator.comparing(p -> p.getTicketCreatedDate())).collect(Collectors.toList());
+           System.out.println("getChartDataTeslaNetworkOp "+ticketDataListSorted.size());
+           ticketDataListSorted.stream().forEach(t->System.out.println(t.toString()));
+           
+           return ticketDataListSorted;
+   		   	}
+
+    @PostMapping("/chartData/oabsupport")
+   	public List<com.bct.weeklystatus.model.TicketData> getChartDataOAB()
+   	{
+       	System.out.println("getChartDataOAB");
+
+       	List<Long> projectIDList = new ArrayList<Long>();
+       	projectIDList.add(1100L);
+       	//projectIDList.add(500L);
+           List<ProjectStatusDetail> projectStatusDetailList= projectDetailService.getAllProjectStatusDetails(projectIDList);
+           List<TicketData> ticketDataList = new ArrayList<TicketData>();
+           projectStatusDetailList.forEach(projectStatusDetail->{
+           	TicketData ticketData = new TicketData();
+           	ticketData.setProjectName(projectStatusDetail.getTaskDetil().getProjectDetail().getProjectName());
+           	ticketData.setL1IssuesClosed(projectStatusDetail.getL1IssuesClosed());
+           	ticketData.setL2IssuesClosed(0);
+           	ticketData.setL1IssuesOpened(projectStatusDetail.getL1IssuesOpened());
+           	ticketData.setL2IssuesOpened(0);
+           	LocalDate day = projectStatusDetail.getDateSelection();
+         
+           	while (day.getDayOfWeek() != DayOfWeek.MONDAY)
+           	 {
+           		      day = day.minusDays(1);
+           	 }
+           	
+           	ticketData.setTicketCreatedDate(day);
+           	System.out.println(" before reducing "+ticketData.toString());
+           	ticketDataList.add(ticketData);       
+           	
+           });
+         
+           ticketDataList.stream().forEach(t->System.out.println(t.toString()));
+           Map<Optional<LocalDate>,TicketData> mapfTicketsByWeekly =
+           	    ticketDataList
+           	        .stream()
+           	        .collect(
+           	            Collectors.groupingBy(e->Optional.ofNullable(e.getTicketCreatedDate()),                      
+           	                  Collectors.reducing(
+           	                		  new TicketData(LocalDate.MIN,0,0,0,0,""),
+           	                		  (t1,t2)->
+                   	                    new TicketData(t2.getTicketCreatedDate(),t1.getL1IssuesOpened()+t2.getL1IssuesOpened(),t1.getL1IssuesClosed()+t2.getL1IssuesClosed(),
+                   	                    		t1.getL2IssuesOpened()+t2.getL2IssuesOpened(),t1.getL2IssuesClosed()+t2.getL2IssuesClosed(),t2.getProjectName()))));
+           List<TicketData> ticketDataListNew = new ArrayList<TicketData>();
+           mapfTicketsByWeekly.forEach((date,t)->{
+           	ticketDataListNew.add(t);
+           });
+            
+           List<TicketData> ticketDataListSorted =ticketDataListNew.stream().sorted( Comparator.comparing(p -> p.getTicketCreatedDate())).collect(Collectors.toList());
+           System.out.println("getChartDataTeslaNetworkOp "+ticketDataListSorted.size());
+           ticketDataListSorted.stream().forEach(t->System.out.println(t.toString()));
+           
+           return ticketDataListSorted;
+   		   	}
+
     private String generateWeek(LocalDate day) {
         while (day.getDayOfWeek() != DayOfWeek.MONDAY)
     	 {

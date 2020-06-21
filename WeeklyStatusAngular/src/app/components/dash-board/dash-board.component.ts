@@ -10,6 +10,7 @@ export class DashBoardComponent implements OnInit {
 
   
     dashBoardFlagparent:boolean = true;
+    dashBoard2Flagparent:boolean = false;
     logFlagparent:boolean = false;
     applicationFlagparent:boolean = false;
     userFlagparent:boolean = false;
@@ -42,6 +43,7 @@ export class DashBoardComponent implements OnInit {
         this.logFlagparent = false;
         this.appInfoFlagparent = false;
         this.dashBoardFlagparent = false;
+        this.dashBoard2Flagparent = false;
         this.newInterfaceFlagparent = false;
         this.projectStatusFlagparent=false;
      }
@@ -58,6 +60,7 @@ export class DashBoardComponent implements OnInit {
         this.logFlagparent = true;
         this.appInfoFlagparent = false;
         this.dashBoardFlagparent = false;
+        this.dashBoard2Flagparent = false;
         this.newInterfaceFlagparent = false;
         this.projectStatusFlagparent=false;
       }
@@ -80,6 +83,7 @@ export class DashBoardComponent implements OnInit {
         this.logFlagparent = true;
         this.appInfoFlagparent = false;
         this.dashBoardFlagparent = false;
+        this.dashBoard2Flagparent = false;
         this.newInterfaceFlagparent = false;
         this.projectStatusFlagparent = false;  
       }
@@ -98,6 +102,7 @@ export class DashBoardComponent implements OnInit {
       this.logFlagparent = false;
       this.appInfoFlagparent = false;
       this.dashBoardFlagparent = false;
+      this.dashBoard2Flagparent = false;
       this.newInterfaceFlagparent = false;
       this.projectStatusFlagparent = false;
       }
@@ -118,6 +123,7 @@ export class DashBoardComponent implements OnInit {
       this.logFlagparent = false;
       this.appInfoFlagparent = false;
       this.dashBoardFlagparent = false;
+      this.dashBoard2Flagparent = false;
       this.newInterfaceFlagparent = false;
       this.projectStatusFlagparent = false;
       }
@@ -135,6 +141,7 @@ export class DashBoardComponent implements OnInit {
       this.logFlagparent = false;
       this.appInfoFlagparent = false;
       this.dashBoardFlagparent = true;
+      this.dashBoard2Flagparent = false;
       this.newInterfaceFlagparent = false;
       this.projectStatusFlagparent = false;
       }
@@ -144,6 +151,23 @@ export class DashBoardComponent implements OnInit {
       }
   }
 
+  receiveDashBoard2($event) {
+    //debugger;
+    if($event=="true"){
+      this.applicationFlagparent = false;
+      this.userFlagparent = false;
+      this.logFlagparent = false;
+      this.appInfoFlagparent = false;
+      this.dashBoardFlagparent = false;
+      this.dashBoard2Flagparent = true;
+      this.newInterfaceFlagparent = false;
+      this.projectStatusFlagparent = false;
+      }
+      else {
+        // this.logFlagparent = true;
+        // this.notificationFlagparent = false;
+      }
+  }
   receiveNewInterface($event) {
     //debugger;
     console.log("receiveNewInterface");
@@ -153,6 +177,7 @@ export class DashBoardComponent implements OnInit {
       this.logFlagparent = false;
       this.appInfoFlagparent = false;
       this.dashBoardFlagparent = false;
+      this.dashBoard2Flagparent = false;
       this.newInterfaceFlagparent = true;
       this.projectStatusFlagparent = false;
       }
@@ -171,6 +196,7 @@ export class DashBoardComponent implements OnInit {
       this.logFlagparent = false;
       this.appInfoFlagparent = false;
       this.dashBoardFlagparent = false;
+      this.dashBoard2Flagparent = false;
       this.newInterfaceFlagparent = false;
       this.projectStatusFlagparent = true;
       }

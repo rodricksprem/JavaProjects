@@ -15,6 +15,7 @@ export class SideBarComponent implements OnInit {
   @Output() userEvent = new EventEmitter<string>();
   @Output() appInfoEvent = new EventEmitter<string>();
   @Output() dashBoardEvent = new EventEmitter<string>();
+  @Output() dashBoard2Event = new EventEmitter<string>();
   @Output() generalInstructionEvent = new EventEmitter<string>();
   @Output() newInterfaceEvent = new EventEmitter<string>();
   @Output() projectStatusEvent = new EventEmitter<string>();
@@ -25,23 +26,7 @@ export class SideBarComponent implements OnInit {
   constructor(private _router:Router,private _userSessionService:UserSessionService) {
     console.log("sidebar constructor");
     this.userType = this._userSessionService.getUserType();
-  /*  this._userSessionService.getUserNameByUserId().subscribe((userData)=>
-    {
-
-      if(userData != null)
-      {
-        
-        console.log("userData.userType:"+userData.userType);
-        this._userSessionService.setUserName(userData.userId);
-        this.userType = userData.userType;
-        this._userSessionService.setHostName("https://"+userData.updatedBy+"/weeklystatusui/login");
-        this._userSessionService.setUserType(userData.userType);
-      }
-      
-    }),
-    (error)=>{
-      console.log(error);
-    }*/
+ 
    }
 
   ngOnInit() {
@@ -49,23 +34,6 @@ export class SideBarComponent implements OnInit {
     console.log("userType:"+this.userType);
     
 
-  /*  this._userSessionService.getUserNameByUserId().subscribe((userData)=>
-    {
-
-      if(userData != null)
-      {
-        
-        console.log("userData.userType:"+userData.userType);
-        this._userSessionService.setUserName(userData.userId);
-        this.userType = userData.userType;
-        this._userSessionService.setHostName("https://"+userData.updatedBy+"/weeklystatusui/login");
-        this._userSessionService.setUserType(userData.userType);
-      }
-      
-    }),
-    (error)=>{
-      console.log(error);
-    }*/
   
     
     $(document).ready(function(){
@@ -94,6 +62,7 @@ export class SideBarComponent implements OnInit {
     this.userEvent.emit("false");
     this.appInfoEvent.emit("false");
     this.dashBoardEvent.emit("false");
+    this.dashBoard2Event.emit("false");
     this.generalInstructionEvent.emit("false");
     this.newInterfaceEvent.emit("false");
     
@@ -110,10 +79,10 @@ export class SideBarComponent implements OnInit {
     this.userEvent.emit("false");
     this.appInfoEvent.emit("false");
     this.dashBoardEvent.emit("false");
+    this.dashBoard2Event.emit("false");
     this.generalInstructionEvent.emit("false");
     this.newInterfaceEvent.emit("false");
-    
-  this.projectStatusEvent.emit("false");
+    this.projectStatusEvent.emit("false");
     this.dataPurgeEvent.emit("false");
   }
 
@@ -124,12 +93,12 @@ export class SideBarComponent implements OnInit {
     this.userEvent.emit("false");
     this.appInfoEvent.emit("false");
     this.dashBoardEvent.emit("false");
+    this.dashBoard2Event.emit("false");
     this.generalInstructionEvent.emit("false");
     this.newInterfaceEvent.emit("false");
-    
-  this.projectStatusEvent.emit("false");
+    this.projectStatusEvent.emit("false");
     this.dataPurgeEvent.emit("false");
-    }
+  }
 
   showUser(){
     this.loggingEvent.emit("false");
@@ -138,12 +107,12 @@ export class SideBarComponent implements OnInit {
     this.userEvent.emit("true");
     this.appInfoEvent.emit("false");
     this.dashBoardEvent.emit("false");
+    this.dashBoard2Event.emit("false");
     this.generalInstructionEvent.emit("false");
     this.newInterfaceEvent.emit("false");
-    
-  this.projectStatusEvent.emit("false");
+    this.projectStatusEvent.emit("false");
     this.dataPurgeEvent.emit("false");
-    }
+ }
 
   showAppType(){
     this.loggingEvent.emit("false");
@@ -152,12 +121,12 @@ export class SideBarComponent implements OnInit {
     this.userEvent.emit("false");
     this.appInfoEvent.emit("false");
     this.dashBoardEvent.emit("false");
+    this.dashBoard2Event.emit("false");
     this.generalInstructionEvent.emit("false");
     this.newInterfaceEvent.emit("false");
-    
-  this.projectStatusEvent.emit("false");
+    this.projectStatusEvent.emit("false");
     this.dataPurgeEvent.emit("false");
-    }
+  }
 
   
   showAppInfo(){
@@ -167,24 +136,37 @@ export class SideBarComponent implements OnInit {
     this.userEvent.emit("false");
     this.appInfoEvent.emit("true");
     this.dashBoardEvent.emit("false");
+    this.dashBoard2Event.emit("false");
     this.generalInstructionEvent.emit("false");
     this.newInterfaceEvent.emit("false");
-    
-  this.projectStatusEvent.emit("false");
+    this.projectStatusEvent.emit("false");
     this.dataPurgeEvent.emit("false");
-    }
+  }
 
   showDashboard(){
-        this.loggingEvent.emit("false");
+    this.loggingEvent.emit("false");
     this.notificationEvent.emit("false");
     this.applicationEvent.emit("false");
     this.userEvent.emit("false");
     this.appInfoEvent.emit("false");
     this.dashBoardEvent.emit("true");
+    this.dashBoard2Event.emit("false");
     this.generalInstructionEvent.emit("false");
     this.newInterfaceEvent.emit("false");
-    
-  this.projectStatusEvent.emit("false");
+    this.projectStatusEvent.emit("false");
+    this.dataPurgeEvent.emit("false");
+  }
+  showDashboard2(){
+    this.loggingEvent.emit("false");
+    this.notificationEvent.emit("false");
+    this.applicationEvent.emit("false");
+    this.userEvent.emit("false");
+    this.appInfoEvent.emit("false");
+    this.dashBoardEvent.emit("false");
+    this.dashBoard2Event.emit("true");
+    this.generalInstructionEvent.emit("false");
+    this.newInterfaceEvent.emit("false");
+    this.projectStatusEvent.emit("false");
     this.dataPurgeEvent.emit("false");
   }
   showGeneralinfo(){
@@ -194,10 +176,10 @@ export class SideBarComponent implements OnInit {
     this.userEvent.emit("false");
     this.appInfoEvent.emit("false");
     this.dashBoardEvent.emit("false");
+    this.dashBoard2Event.emit("false");
     this.generalInstructionEvent.emit("true");
     this.newInterfaceEvent.emit("false");
-    
-  this.projectStatusEvent.emit("false");
+    this.projectStatusEvent.emit("false");
     this.dataPurgeEvent.emit("false");
   }
 
@@ -208,24 +190,25 @@ export class SideBarComponent implements OnInit {
     this.userEvent.emit("false");
     this.appInfoEvent.emit("false");
     this.dashBoardEvent.emit("false");
+    this.dashBoard2Event.emit("false");
     this.generalInstructionEvent.emit("false");
     this.newInterfaceEvent.emit("true");
-  this.projectStatusEvent.emit("false");
+    this.projectStatusEvent.emit("false");
     this.dataPurgeEvent.emit("false");
  }
  showProjectStatus(){
-  this.loggingEvent.emit("false");
-  this.notificationEvent.emit("false");
-  this.applicationEvent.emit("false");
-  this.userEvent.emit("false");
-  this.appInfoEvent.emit("false");
-  this.dashBoardEvent.emit("false");
-  this.generalInstructionEvent.emit("false");
-  this.newInterfaceEvent.emit("false");
-  this.projectStatusEvent.emit("true");
-  console.log("showProjectStatus ");
-
-  this.dataPurgeEvent.emit("false");
+    this.loggingEvent.emit("false");
+    this.notificationEvent.emit("false");
+    this.applicationEvent.emit("false");
+    this.userEvent.emit("false");
+    this.appInfoEvent.emit("false");
+    this.dashBoardEvent.emit("false");
+    this.dashBoard2Event.emit("false");
+    this.generalInstructionEvent.emit("false");
+    this.newInterfaceEvent.emit("false");
+    this.projectStatusEvent.emit("true");
+    console.log("showProjectStatus ");
+    this.dataPurgeEvent.emit("false");
 }
 
  showDataPurge(){
@@ -236,6 +219,7 @@ export class SideBarComponent implements OnInit {
   this.userEvent.emit("false");
   this.appInfoEvent.emit("false");
   this.dashBoardEvent.emit("false");
+  this.dashBoard2Event.emit("false");
   this.generalInstructionEvent.emit("false");
   this.newInterfaceEvent.emit("false");
   this.projectStatusEvent.emit("false");

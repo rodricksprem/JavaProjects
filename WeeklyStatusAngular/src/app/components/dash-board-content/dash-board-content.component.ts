@@ -35,17 +35,14 @@ export class DashBoardContentComponent implements OnInit {
 
   busearch = null;
   per: number = 66;
-  defBU = "0";
-  defBUAppName = "0";
-  defBUEntity = "0";
-  defBUes = "0";
   projectName:string;
   ticketDataList:Array<TicketData>=[];
   meezaTicketDataList:Array<TicketData>=[];
   infraDataList:Array<InfraData>= [];
   ivmsInfraDataList:Array<IVMSInfraData>= [];
   
-  weeks:Array<String>= [];
+  cgweeks:Array<String>= [];
+  ivmsweeks:Array<String>= [];
 
   constructor(private _userSessionService: UserSessionService, private spinnerService: Ng4LoadingSpinnerService,  private _dashboardService: DashboardService, private _router: Router) {
   }
@@ -85,7 +82,7 @@ export class DashBoardContentComponent implements OnInit {
        type: "spline",
        events: {
         load: function() {
-          this.xAxis[0].setExtremes(0, 5);
+          this.xAxis[0].setExtremes(index-6, index-1);
         }
       }
       },
@@ -151,7 +148,34 @@ export class DashBoardContentComponent implements OnInit {
         }]
     }
     });
-
+    var stepWidth = 5;
+    // the button action
+    $('#beginning').click(function() {
+      var chart =$('#containerElement').highcharts();
+      chart.xAxis[0].setExtremes(0, 5);
+    });
+  
+    $('#forward').click(function() {
+      
+      var chart = $('#containerElement').highcharts();
+      var currentMin = chart.xAxis[0].getExtremes().min;
+      var currentMax = chart.xAxis[0].getExtremes().max;
+  
+      chart.xAxis[0].setExtremes(currentMin + stepWidth, currentMax + stepWidth);
+    });
+  
+    $('#back').click(function() {
+      var chart = $('#containerElement').highcharts();
+      var currentMin = chart.xAxis[0].getExtremes().min;
+      var currentMax = chart.xAxis[0].getExtremes().max;
+  
+      chart.xAxis[0].setExtremes(currentMin - stepWidth, currentMax - stepWidth);
+    });
+  
+    $('#ending').click(function() {
+      var chart  =$('#containerElement').highcharts();
+      chart.xAxis[0].setExtremes(9, 11);
+    });
 
   }
 
@@ -186,7 +210,7 @@ export class DashBoardContentComponent implements OnInit {
        type: "spline",
        events: {
         load: function() {
-          this.xAxis[0].setExtremes(0, 5);
+          this.xAxis[0].setExtremes(index-6, index-1);
         }
       }
       },
@@ -251,8 +275,25 @@ export class DashBoardContentComponent implements OnInit {
         }]
     }
     });
-
-
+    var stepWidth = 5;
+    // the button action
+    $('#forwardTransaction').click(function() {
+      
+      var chart = $('#containerElementTransaction').highcharts();
+      var currentMin = chart.xAxis[0].getExtremes().min;
+      var currentMax = chart.xAxis[0].getExtremes().max;
+  
+      chart.xAxis[0].setExtremes(currentMin + stepWidth, currentMax + stepWidth);
+    });
+  
+    $('#backTransaction').click(function() {
+      var chart = $('#containerElementTransaction').highcharts();
+      var currentMin = chart.xAxis[0].getExtremes().min;
+      var currentMax = chart.xAxis[0].getExtremes().max;
+  
+      chart.xAxis[0].setExtremes(currentMin - stepWidth, currentMax - stepWidth);
+    });
+  
   }
   public Infra1Chart(weekSelected:string) {
     console.log(this.infraDataList.length)
@@ -488,9 +529,18 @@ export class DashBoardContentComponent implements OnInit {
   ngOnInit() {
 
    
-       this._dashboardService.getWeeks().pipe().subscribe((weeksList:String[]) => {
-      this.weeks=weeksList;
-      console.log("this.weeks "+this.weeks);
+      //get weeks for CG Support
+       this._dashboardService.getWeeks(700).pipe().subscribe((weeksList:String[]) => {
+      this.cgweeks=weeksList;
+      console.log("this.weeks "+this.cgweeks);
+    }), (error) => {
+      console.log(error);
+    
+    }
+     //get weeks for IVMS Support
+     this._dashboardService.getWeeks(900).pipe().subscribe((weeksList:String[]) => {
+      this.ivmsweeks=weeksList;
+      console.log("this.weeks "+this.ivmsweeks);
     }), (error) => {
       console.log(error);
     
@@ -499,10 +549,7 @@ export class DashBoardContentComponent implements OnInit {
 
       this.ticketDataList = ticketDataList;
       console.log("ticketDataList ",this.ticketDataList.length);
-      /*this.ticketDataList.forEach( function( ticketData, idx ) {
-        this.weeks.push(ticketData.weekDuration);
-        console.log("this.weeks ",this.weeks);
-      } );*/
+     
         
       this.clickableTicketing();
  
@@ -514,10 +561,7 @@ export class DashBoardContentComponent implements OnInit {
 
       this.meezaTicketDataList = ticketDataList;
       console.log("meezaTicketDataList ",this.meezaTicketDataList.length);
-      /*this.ticketDataList.forEach( function( ticketData, idx ) {
-        this.weeks.push(ticketData.weekDuration);
-        console.log("this.weeks ",this.weeks);
-      } );*/
+     
         
       this.clickableTransaction();
  
@@ -558,12 +602,7 @@ export class DashBoardContentComponent implements OnInit {
 
   }
   
-  setDefaultValues() {
-    this.defBU = "0";
-    this.defBUAppName = "0";
-    this.defBUEntity = "0";
-    this.defBUes = "0";
-  }
+  
 
   onInfra1WeekChange(value){
     console.log("weekselected ",value);

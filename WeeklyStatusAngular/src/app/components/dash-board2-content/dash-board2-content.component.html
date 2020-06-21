@@ -1,7 +1,7 @@
 <div class="content-wrapper dashboard">
 
   <ol class="breadcrumb">
-    <li class="breadcrumb-item">Dashboard</li>
+    <li class="breadcrumb-item">Dashboard-II</li>
   </ol>
   <section class="content">
 
@@ -10,22 +10,23 @@
 
 
       </div>
-     
+
 
 
       <div class="col-md-6 graphs">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <span><i class="fa fa-chart-pie"></i>&nbsp;Tesla Tickets</span>
-             
+            <span><i class="fa fa-chart-pie"></i>&nbsp;Tesla Network Operations Tickets</span>
+
           </div>
           <div class="panel-body graphPanelHeight" style="padding: 0px !important">
-            <div id="containerElement" #containerElement style="min-width: 310px; height: 350px; margin: 0 auto">
-              </div>
-              <button id="back"  style="float:right !important">Back</button>
-              <button id="forward" style="float:right !important">Forward</button>
-            
-   
+            <div id="containerTeslaNetwork" #containerTeslaNetwork
+              style="min-width: 310px; height: 350px; margin: 0 auto">
+            </div>
+            <button id="back" style="float:right !important">Back</button>
+            <button id="forward" style="float:right !important">Forward</button>
+
+
           </div>
         </div>
       </div>
@@ -33,22 +34,22 @@
       <div class="col-md-6 graphs">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <span> <i class="fa fa-bar-chart-o"></i>&nbsp;Meeza IT</span>
+            <span> <i class="fa fa-bar-chart-o"></i>&nbsp;OAB Support </span>
           </div>
           <div class="panel-body chart-responsive graphPanelHeight" style="padding: 0px !important">
-        
-            <div id="containerElementTransaction" #containerElementTransaction style="min-width: 310px; height: 350px; margin: 0 auto">
-                   
+
+            <div id="containerElementOAB" #containerElementOAB style="min-width: 310px; height: 350px; margin: 0 auto">
+
+            </div>
+            <button id="backOAB" style="float:right !important">Back</button>
+            <button id="forwardOAB" style="float:right !important">Forward</button>
+
           </div>
-          <button id="backTransaction" style="float:right !important" >Back</button>
-          <button id="forwardTransaction" style="float:right !important">Forward</button>
-        
-        </div>
         </div>
       </div>
     </div>
 
-    <div class="row">
+    <!--<div class="row">
       <div class="col-md-6 col-sm-4 col-xs-12 graphs">
 
         <div class="panel panel-default">
@@ -62,7 +63,7 @@
               <select  id="searchweekNotification" name="searchweekNotification"  style="float:right !important"  [value]='week'
               (change)="onInfra2WeekChange($event.target.value)" ngModel>
               <option value="" disabled selected>Select Week</option>
-              <option *ngFor="let week of cgweeks" value={{week}}>
+              <option *ngFor="let week of weeks" value={{week}}>
                 {{week}}</option>
             </select>
             
@@ -84,13 +85,14 @@
            <select  id="searchweek" name="searchweek"  style="float:right !important"  [value]='week'
           (change)="onInfra1WeekChange($event.target.value)" ngModel>
           <option value="" disabled selected>Select Week</option>
-          <option *ngFor="let week of ivmsweeks" value={{week}}>
+          <option *ngFor="let week of weeks" value={{week}}>
             {{week}}</option>
         </select>
         </div>
       </div>
-  
-    </div>
-  </div>
+    
+    </div>-->
 
-  </section>
+
+</section>
+</div>
