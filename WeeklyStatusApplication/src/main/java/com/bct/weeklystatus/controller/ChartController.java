@@ -33,6 +33,7 @@ import com.bct.weeklystatus.entities.ProjectStatusDetail;
 import com.bct.weeklystatus.entities.WeekStatus;
 import com.bct.weeklystatus.model.InfraData;
 import com.bct.weeklystatus.model.IvmsInfraData;
+import com.bct.weeklystatus.model.SRData;
 import com.bct.weeklystatus.model.TicketData;
 import com.bct.weeklystatus.services.AccountService;
 import com.bct.weeklystatus.services.ProjectDetailService;
@@ -376,12 +377,11 @@ static Date getStartDate(String weekDuration) throws ParseException {
            });
             
            List<TicketData> ticketDataListSorted =ticketDataListNew.stream().sorted( Comparator.comparing(p -> p.getTicketCreatedDate())).collect(Collectors.toList());
-           System.out.println("getChartDataTeslaNetworkOp "+ticketDataListSorted.size());
+           System.out.println("getChartDataOAB "+ticketDataListSorted.size());
            ticketDataListSorted.stream().forEach(t->System.out.println(t.toString()));
            
            return ticketDataListSorted;
    		   	}
-
     @PostMapping("/chartData/oabsupport")
    	public List<com.bct.weeklystatus.model.TicketData> getChartDataOAB()
    	{
@@ -429,11 +429,73 @@ static Date getStartDate(String weekDuration) throws ParseException {
            });
             
            List<TicketData> ticketDataListSorted =ticketDataListNew.stream().sorted( Comparator.comparing(p -> p.getTicketCreatedDate())).collect(Collectors.toList());
-           System.out.println("getChartDataTeslaNetworkOp "+ticketDataListSorted.size());
+           System.out.println("getChartDataOAB "+ticketDataListSorted.size());
            ticketDataListSorted.stream().forEach(t->System.out.println(t.toString()));
            
            return ticketDataListSorted;
    		   	}
+
+    @PostMapping("/chartData/uab")
+   	public List<com.bct.weeklystatus.model.SRData> getChartDataUAB()
+   	{
+       	System.out.println("getChartDataUAB");
+
+       	List<Long> projectIDList = new ArrayList<Long>();
+       	projectIDList.add(1400L);
+       	//projectIDList.add(500L);
+           List<ProjectStatusDetail> projectStatusDetailList= projectDetailService.getAllProjectStatusDetails(projectIDList);
+           List<SRData> srList = new ArrayList<SRData>();
+           projectStatusDetailList.forEach(projectStatusDetail->{
+        	   SRData srData = new SRData();
+        	   srData.setProjectName(projectStatusDetail.getTaskDetil().getProjectDetail().getProjectName());
+        	   srData.setSrCategory(projectStatusDetail.getTaskDetil().getTaskName());
+        	   srData.setSrOpened(1);
+        	   if(projectStatusDetail.getStatus()!=null && projectStatusDetail.getStatus().equalsIgnoreCase("completed"))
+        		   {
+        			   srData.setSrClosed(1);
+        		   }
+        	  LocalDate day = projectStatusDetail.getDateSelection();
+         
+           	while (day.getDayOfWeek() != DayOfWeek.MONDAY)
+           	 {
+           		      day = day.minusDays(1);
+           	 }
+           	
+           	srData.setSrCreatedDate(day);
+           	System.out.println(" before reducing "+srData.toString());
+           	srList.add(srData);       
+           	
+           });
+         
+           srList.stream().forEach(t->System.out.println(t.toString()));
+           Map<Optional<String>,Map<Optional<LocalDate>,SRData>> mapSrsByCategoryAndByWeekly =
+           	    srList
+           	        .stream()
+           	        .collect(
+           	        	 Collectors.groupingBy(e->Optional.ofNullable(e.getSrCategory()),
+           	        		Collectors.groupingBy(e->Optional.ofNullable(e.getSrCreatedDate()),                      
+           	                  Collectors.reducing(
+           	                		  new SRData(LocalDate.MIN,"",0,0,""),
+           	                		  (t1,t2)->
+                   	                    new SRData(t2.getSrCreatedDate(),t2.getSrCategory(),t1.getSrOpened()+t2.getSrOpened(),t1.getSrClosed()+t2.getSrClosed(),
+                   	                    		t2.getProjectName())))));
+           List<SRData> srDataListNew = new ArrayList<SRData>();
+           
+          
+           mapSrsByCategoryAndByWeekly.forEach((servername,t)->{
+           	t.forEach((key,data)->{
+           		srDataListNew.add(data);
+           	});
+           	
+           });
+           List<SRData> srDataListSorted =srDataListNew.stream().sorted( Comparator.comparing(p -> p.getSrCreatedDate())).collect(Collectors.toList());
+           System.out.println("getChartDataUAB "+srDataListSorted.size());
+           srDataListSorted.stream().forEach(t->System.out.println(t.toString()));
+           
+           return srDataListSorted;
+   		   	}
+
+   
 
     private String generateWeek(LocalDate day) {
         while (day.getDayOfWeek() != DayOfWeek.MONDAY)

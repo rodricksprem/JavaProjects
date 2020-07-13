@@ -66,8 +66,14 @@ export class DashboardService {
   
   getChartDataOAB()
   {
-    console.log("  getChartDataTeslaNwOp()"+this.baseurl+'/chartData/oabsupport');
+    console.log("  getChartDataOAB()"+this.baseurl+'/chartData/oabsupport');
     return this._http.post(this.baseurl+'/chartData/oabsupport', this.optionsnew)
+    .catch(this.errorHandler);
+  }
+  getChartDataUAB()
+  {
+    console.log("  getChartDataUAB()"+this.baseurl+'/chartData/uab');
+    return this._http.post(this.baseurl+'/chartData/uab', this.optionsnew)
     .catch(this.errorHandler);
   }
 

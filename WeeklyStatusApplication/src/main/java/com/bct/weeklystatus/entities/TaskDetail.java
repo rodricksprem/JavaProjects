@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
@@ -55,7 +56,7 @@ public class TaskDetail {
 	@Id
 	 @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "taskdetail_Sequence")
     @SequenceGenerator(name = "taskdetail_Sequence", sequenceName = "TASKDETAIL_SEQ")
-   
+    
 	private Integer taskId;
 	@Column(name="Task_Name")
 	private String taskName;

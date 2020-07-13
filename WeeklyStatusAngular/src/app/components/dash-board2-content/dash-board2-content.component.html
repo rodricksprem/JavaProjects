@@ -49,30 +49,29 @@
       </div>
     </div>
 
-    <!--<div class="row">
+    <div class="row">
       <div class="col-md-6 col-sm-4 col-xs-12 graphs">
 
         <div class="panel panel-default">
           <div class="panel-heading">
-            <span> <i class="fa fa-align-left"></i>&nbsp;IVMS Monitoring Support</span>
+            <span> <i class="fa fa-align-left"></i>&nbsp;University of Alabama </span>
      
           </div>
           <div class="panel-body graphPanelHeight" style="padding: 0px !important">
-            
-              <div #containerElementNotification style="min-width: 310px; height: 350px; margin: 0 auto"></div>
-              <select  id="searchweekNotification" name="searchweekNotification"  style="float:right !important"  [value]='week'
-              (change)="onInfra2WeekChange($event.target.value)" ngModel>
-              <option value="" disabled selected>Select Week</option>
-              <option *ngFor="let week of weeks" value={{week}}>
-                {{week}}</option>
-            </select>
-            
+            <div id="containerElementAlabama" #containerElementAlabama
+              style="min-width: 310px; height: 350px; margin: 0 auto">
+            </div>
+            <button id="backAlabama" style="float:right !important">Back</button>
+            <button id="forwardAlabama" style="float:right !important">Forward</button>
+
+
           </div>
         </div>
+          
       </div>
+     
 
-
-      <div class="col-md-6 col-sm-4 col-xs-12 graphs">
+     <!-- <div class="col-md-6 col-sm-4 col-xs-12 graphs">
         <div class="panel panel-default">
           <div class="panel-heading">
             <span class="iconRotate"> <i class="fa fa-sitemap"></i>&nbsp;CG Support</span>
@@ -89,9 +88,9 @@
             {{week}}</option>
         </select>
         </div>
-      </div>
+      </div>-->
     
-    </div>-->
+    </div>
 
 
 </section>

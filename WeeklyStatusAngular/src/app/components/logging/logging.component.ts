@@ -317,6 +317,7 @@ onAccChange(accountName) {
   onProjectChange(projectID) {
      console.log("onProjectChange ",projectID);
      this.weekDurationList=[];
+     this.rowData =[]
      this.projectList.forEach(element => {
        if(element.projectId == projectID )
        this.selectedProject =element;
@@ -324,6 +325,7 @@ onAccChange(accountName) {
        this.weekDurationList.push(wd.weekduration);
        });
      });
+    // this.weekDurationList= Array.from(new Set(this.weekDurationList.map((item: string) => item)))
       
       
   }

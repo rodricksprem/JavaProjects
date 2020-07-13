@@ -58,13 +58,7 @@ export class ProjectStatusComponet implements OnInit {
       itemsShowLimit: 3,
       allowSearchFilter: true
     };
-    this._applicationService.getWeeks().subscribe((weeksList:string[]) => {
-      this.weeks=weeksList;
-      console.log("this.weeks "+this.weeks);
-    }), (error) => {
-      console.log(error);
     
-    }
     this._applicationService.getAllProjectDetails().subscribe((projectDetailList:ProjectDetail[])=>
     {
       //console.log(application);
@@ -104,6 +98,7 @@ export class ProjectStatusComponet implements OnInit {
         this.weeks.push(wd.weekduration);
          });
         
+      this.weeks= Array.from(new Set(this.weeks.map((item: string) => item)))
         console.log(this.weeks);
 
         document.getElementById("successStatus").innerHTML = "";
